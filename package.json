@@ -1,0 +1,27 @@
+{
+  "name": "yunpan",
+  "version": "1.0.0",
+  "description": "Simple file upload, download and relay system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Soulike/yunpan.git"
+  },
+  "author": "soulike",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Soulike/yunpan/issues"
+  },
+  "homepage": "https://github.com/Soulike/yunpan#readme",
+  "dependencies": {
+    "koa": "^2.5.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-helmet": "^4.0.0",
+    "koa-router": "^7.4.0",
+    "koa-session": "^5.8.1",
+    "request": "^2.85.0"
+  }
+}
