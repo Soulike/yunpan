@@ -11,5 +11,7 @@
     <orderEntry type="library" name="@types/koa" level="application" />
     <orderEntry type="library" name="@types/koa-bodyparser" level="application" />
     <orderEntry type="library" name="@types/koa-router" level="application" />
+    <orderEntry type="library" name="@types/request" level="application" />
+    <orderEntry type="library" name="@types/sequelize" level="application" />
   </component>
 </module>
