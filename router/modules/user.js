@@ -37,7 +37,7 @@ module.exports = (router) =>
         else
         {
             const user = await User.find({where: {email: email}});
-            if (user.count() !== 1)
+            if (Object.is(user, null))
             {
                 ctx.body = new response(false, '用户不存在');
             }
