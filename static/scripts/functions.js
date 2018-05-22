@@ -64,7 +64,7 @@ function AJAX(suffix, data, successFunction, errorFunction, async = true)
             timeout: 2000,
             async: async,
             dataType: 'json',
-            url: `https://${DOMAIN}:${PORT}/server${suffix}`,
+            url: `https://${DOMAIN}/server${suffix}`,
             method: 'post',
             data: JSON.stringify(data),
             success: successFunction,
