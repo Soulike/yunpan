@@ -28,7 +28,7 @@ module.exports = (router) =>
     router.post(prefix('/login'), async (ctx, next) =>
     {
         const {email, pass1, pass2} = ctx.request;
-        const {REG: {EMAIL, SHA256}} = config;
+        const {REGEXP: {EMAIL, SHA256}} = config;
         const {User} = db;
         if (!(EMAIL.test(email) && SHA256.test(pass1) && SHA256.test(pass2)))
         {
