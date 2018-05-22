@@ -6,7 +6,7 @@ const {response} = config;
 
 const prefix = (router) =>
 {
-    return `/user${router}`;
+    return `/server/user${router}`;
 };
 
 module.exports = (router) =>
