@@ -18,6 +18,8 @@ const SESSION_CONFIG = {
     renew: true, /** (boolean) renew session when session is nearly expired, so we can always keep user logged in. (default is false)*/
 };
 
+const PORT = 8002;
+
 class response
 {
     constructor(status, msg, data = {})
@@ -32,5 +34,6 @@ module.exports = {
     FILE_STORAGE_PATH,
     REGEXP,
     SESSION_CONFIG,
+    PORT,
     response
 };

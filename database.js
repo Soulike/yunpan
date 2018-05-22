@@ -18,9 +18,11 @@ const User = userDb.define('account',
             type: Sequelize.STRING,
             unique: true
         },
-        password_sha1: {type: Sequelize.STRING},
-        password_sha256: {type: Sequelize.STRING}
+        password: {type: Sequelize.STRING}
     });
 
 
-module.exports = {User};
+module.exports = {
+    userDb,
+    User
+};

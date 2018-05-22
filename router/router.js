@@ -10,6 +10,6 @@
 const Router = require('koa-router');
 const router = new Router();
 
-
+require('./modules/user')(router);
 
 module.exports = router;

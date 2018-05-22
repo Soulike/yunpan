@@ -1,0 +1,73 @@
+/*      <div id="links">
+            <ul id="linksList">
+                <li class="item"><a href="https://soulike.tech/" class="link">首页</a></li>
+                <li class="item"><a href="https://soulike.tech/blog/essay" class="link">博客</a></li>
+                <li class="item"><a href="#" class="link">源码</a></li>
+            </ul>
+        </div>
+*/
+
+div#topBar {
+    margin-top: 1rem;
+    width: 100%;
+    height: 6rem;
+    border-top: 3px solid #000;
+    border-bottom: 1px solid #CCC;
+}
+
+div#avatarDiv {
+    display: inline-block;
+    padding: 1.5rem 0;
+    margin-left: 1.5rem;
+}
+
+img#avatar {
+    width: 3rem;
+    border-radius: 3rem;
+    transition: 0.75s;
+}
+
+img#avatar:hover {
+    transform: rotate(360deg);
+}
+
+div#links {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 3rem;
+}
+
+li.item {
+    float: left;
+    list-style: none;
+    height: 6rem;
+}
+
+li.item:hover{
+    border-bottom: #08D 3px solid;
+}
+
+li.item:first-child {
+    border-left: none;
+}
+
+li.item:last-child {
+    border-right: none;
+}
+
+a.link {
+    display: inline-block;
+    text-align: center;
+    font-size: 1.25rem;
+    text-decoration: none;
+    color: #444;
+    transition: 0.25s;
+    height: 6rem;
+    width: 8rem;
+    padding: 2.375rem 0;
+}
+
+a.link:hover {
+    text-decoration: none;
+    color: #08D;
+}
