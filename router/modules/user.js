@@ -1,3 +1,4 @@
+'use strict';
 const JsSHA = require('jssha');
 const db = require('../../database');
 const config = require('../../config');

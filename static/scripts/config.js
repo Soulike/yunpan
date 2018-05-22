@@ -1,3 +1,4 @@
+'use strict';
 const REGEXP = {
     EMAIL: /^[0-9A-z]+@([0-9A-z]+\.)+[0-9A-z]+$/
 };

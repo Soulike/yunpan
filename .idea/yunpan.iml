@@ -16,5 +16,6 @@
     <orderEntry type="library" name="@types/bootstrap" level="application" />
     <orderEntry type="library" name="@types/jquery" level="application" />
     <orderEntry type="library" name="@types/koa-session" level="application" />
+    <orderEntry type="library" name="@types/koa-bodyparser" level="application" />
   </component>
 </module>

@@ -1,3 +1,4 @@
+'use strict';
 const {log} = require('./functions/log');
 const Sequelize = require('sequelize');
 const userDb = new Sequelize('user', 'postgres', 'Soulike@PostgreSQL', {

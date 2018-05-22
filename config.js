@@ -1,3 +1,4 @@
+'use strict';
 const FILE_STORAGE_PATH = '/home/soulike/static/';
 
 const REGEXP = {

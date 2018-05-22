@@ -1,3 +1,4 @@
+'use strict';
 function setElementClass(selector, className)
 {
     const $element = $(selector);
