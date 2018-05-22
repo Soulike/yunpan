@@ -1,3 +1,4 @@
+const {log} = require('./functions/log');
 const Sequelize = require('sequelize');
 const userDb = new Sequelize('user', 'postgres', 'Soulike@PostgreSQL', {
     host: '140.82.23.140',
@@ -8,8 +9,10 @@ const userDb = new Sequelize('user', 'postgres', 'Soulike@PostgreSQL', {
         max: 5,
         min: 0,
         acquire: 30000,
-        idle: 10000
-    }
+        idle: 10000,
+    },
+
+    logging: log
 });
 
 const User = userDb.define('account',

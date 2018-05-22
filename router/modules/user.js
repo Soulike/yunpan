@@ -23,7 +23,7 @@ module.exports = (router) =>
      *   pass1: balabala……,  // email的sha256
      *   pass2: balabala……   // password的sha256
      * }
-     * 使用user的id识别不同用户
+     * 使用user的id识别不同用户，使用session实现
      * */
     router.post(prefix('/login'), async (ctx, next) =>
     {
