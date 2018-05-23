@@ -189,6 +189,10 @@ $(() =>
                             {
                                 let percent = event.loaded / event.total * 100;
                                 $uploadProgressBar.css('width', percent + '%');
+                                $uploadControl.change(()=>
+                                {
+                                    $uploadProgressBar.css('width', '0' + '%');
+                                });
                             }
                         }, false);
                     }
