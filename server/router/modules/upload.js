@@ -18,7 +18,8 @@ module.exports = (router) =>
 {
     router.post(prefix('/upload'), upload.single('file'), async (ctx, next) =>
     {
-        const user = await asyncFunctions.getUserAsync(ctx.session.id);
+        const id = ctx.session.id;
+        const user = await asyncFunctions.getUserAsync(id);
         if (Object.is(user, null))
         {
             ctx.body = new response(false, '身份认证失效，请重新登录');
@@ -74,7 +75,7 @@ module.exports = (router) =>
                 upload_date: dayString,
                 file_size: fileInfo.size,
                 is_public: !!isPublic,
-                owner_id: parseInt(user.id)
+                owner_id: parseInt(id)
             });
 
         }
