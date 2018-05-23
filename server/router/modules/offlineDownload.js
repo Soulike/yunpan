@@ -46,7 +46,7 @@ module.exports = (router) =>
                     const date = new Date();
                     const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
                     const dayString = `${year}.${month}.${day}`;
-                    await downloadAsync(link, `${config.PATH_BASE}/${id}/${dayString}/`)
+                    downloadAsync(link, `${config.PATH_BASE}/${id}/${dayString}/`)
                         .then(async (fileName) =>
                         {
                             const fileSize =
@@ -58,13 +58,12 @@ module.exports = (router) =>
                                 is_public: !!isPublic,
                                 owner_id: parseInt(id)
                             });
-                            ctx.body = new response(true, '文件已开始下载，请稍后再查看');
                         })
                         .catch((err) =>
                         {
                             log(`Error when downloading file.\n${err.toString()}`);
                         });
-
+                    ctx.body = new response(true, '文件已开始下载，请稍后再查看');
                 }
             });
         }
