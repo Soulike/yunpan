@@ -90,7 +90,7 @@ function refreshFileList()
                     $fileListBody.html('');
                     for (const file of fileList)
                     {
-                        $fileListBody.append(getFileRow(file.id, file.fileName, file.fileSize, file.createAt));
+                        $fileListBody.append(getFileRow(file.id, file.fileName, file.fileSize, file.createdAt));
                     }
                 }
             }

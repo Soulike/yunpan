@@ -102,7 +102,7 @@ module.exports = (router) =>
                     id: file.id,
                     fileName: file.file_name,
                     fileSize: file.file_size,
-                    createAt: file.createAt
+                    createdAt: file.createdAt
                 });
             }
             ctx.body = new response(true, '文件列表获取成功', data);
