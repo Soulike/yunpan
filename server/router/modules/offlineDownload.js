@@ -27,7 +27,7 @@ module.exports = (router) =>
     router.post(prefix('/downloadLink'), async (ctx, next) =>
     {
         const {link, isPublic} = ctx.request.body;
-        const user = getUserAsync(ctx.session.id);
+        const user = await getUserAsync(ctx.session.id);
         if (Object.is(user, null))//如果用户不存在或cookie失效
         {
             ctx.body = new response(false, '身份认证失效，请重新登录');
