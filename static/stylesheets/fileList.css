@@ -32,6 +32,10 @@ div#fileListArea
     margin-top: 1rem;
 }
 
+button#refreshFileListBtn{
+    float: right;
+}
+
 th#fileNameCol
 {
     width: 55%;

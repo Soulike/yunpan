@@ -12,6 +12,7 @@ $(() =>
     const $offlineDownloadLink = $('#offlineDownloadLink');
     const $offlineDownloadIsPublicCheckbox = $('#offlineDownloadIsPublicCheckbox');
     const $offlineDownloadModalBtn = $('#offlineDownloadModalBtn');
+    const $offlineDownloadModal = $('#offlineDownloadModal');
 
     $offlineDownloadModalBtn.click((e) =>
     {
@@ -33,6 +34,11 @@ $(() =>
             {
                 const {status, msg, data} = res;
                 showAlert(msg, status);
+                if (status)
+                {
+                    $offlineDownloadLink.val('');
+                    hideModal($offlineDownloadModal);
+                }
             }, (err) =>
             {
                 showAlert(MSG.ERROR);
