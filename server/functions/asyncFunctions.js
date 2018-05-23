@@ -42,7 +42,7 @@ async function isExistAsync(path)
     {
         fs.access(path, (err) =>
         {
-            resolve(!!err);//转换为布尔值
+            resolve(!err);
         });
     }));
 }
