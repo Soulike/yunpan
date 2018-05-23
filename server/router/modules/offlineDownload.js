@@ -65,9 +65,8 @@ module.exports = (router) =>
                             log(`Error when downloading file.\n${err.toString()}`);
                         });
                 }
+                await next();
             });
         }
-        console.log(ctx.body);
-        await next();
     });
 };
