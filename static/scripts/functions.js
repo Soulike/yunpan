@@ -1,4 +1,5 @@
 'use strict';
+
 function setElementClass(selector, className)
 {
     const $element = $(selector);
@@ -77,4 +78,17 @@ function AJAX(suffix, data, successFunction, errorFunction, async = true)
 function hideModal(selector)
 {
     $(selector).modal('hide');
+}
+
+function parseTimeString(rawTimeString)
+{
+    const date = new Date(rawTimeString);
+    return `${date.getFullYear()}-${prependZero(date.getMonth() + 1)}-${prependZero(date.getDate())} ${prependZero(date.getHours())}:${prependZero(date.getMinutes())}:${prependZero(date.getSeconds())}`;
+}
+
+//当数小于10时，自动补充0
+function prependZero(num)
+{
+    num = parseInt(num);
+    return num < 10 ? '0' + num.toString() : num.toString();
 }
