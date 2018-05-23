@@ -36,7 +36,7 @@ module.exports = (router) =>
 
             let fileName = fileInfo.originalname;
 
-            await asyncFunctions.createFolder(config.UPLOAD_TEMP_PATH)//创建上传临时目录
+            await asyncFunctions.createFolder(`${config.UPLOAD_TEMP_PATH}/`)//创建上传临时目录
                 .catch((err) =>
                 {
                     log(`Error when uploading.\n${err.toString()}`);
