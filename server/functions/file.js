@@ -12,12 +12,23 @@ async function downloadAsync(fileUrl, localFolder)
     {
         const urlObj = new URL(fileUrl);
         const filePath = urlObj.pathname;
-        const fileName = path.basename(filePath);//获取文件名
+        let fileName = path.basename(filePath);//获取文件名
         await asyncFunction.createFolder(localFolder)
             .catch((err) =>
             {
                 reject(err);
             });
+        if (await asyncFunction.isExistAsync(`${localFolder}/${fileName}`))//如果文件已经存在，则从(2)开始尝试
+        {
+            for (let i = 2; ; i++)
+            {
+                if (!(await asyncFunction.isExistAsync(`${localFolder}/${fileName}(${i})`)))
+                {
+                    fileName = `${fileName}(${i})`;
+                    break;
+                }
+            }
+        }
         const writeStream = fs.createWriteStream(`${localFolder}/${fileName}`);//创建管道准备接收文件
         request({
             uri: fileUrl,

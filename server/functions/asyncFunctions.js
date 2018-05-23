@@ -81,5 +81,6 @@ async function createFolder(path)
 
 module.exports = {
     getUserAsync,
-    createFolder
+    createFolder,
+    isExistAsync
 };

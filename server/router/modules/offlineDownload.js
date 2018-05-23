@@ -3,7 +3,7 @@ const request = require('request');
 const db = require('../../database');
 const config = require('../../config');
 const {downloadAsync, getFileSizeAsync} = require('../../functions/file');
-const {getUserAsync} = require('../../functions/asyncFunctions');
+const {getUserAsync,isExistAsync} = require('../../functions/asyncFunctions');
 const {log} = require('../../functions/log');
 const {response} = config;
 
