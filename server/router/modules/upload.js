@@ -11,7 +11,7 @@ const path = require('path');
 
 const prefix = (router) =>
 {
-    return `/server/${router}`;
+    return `/server${router}`;
 };
 
 module.exports = (router) =>
