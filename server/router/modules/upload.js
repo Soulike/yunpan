@@ -30,7 +30,6 @@ module.exports = (router) =>
         {
             const fileInfo = ctx.req.file;
             const {isPublic} = ctx.req.body;
-            console.log(ctx.req.body.isPublic);
             const date = new Date();
             const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
             const dayString = `${year}.${month}.${day}`;
@@ -68,11 +67,12 @@ module.exports = (router) =>
                     log(`Error when uploading.\n${err.toString()}`);
                 });
 
-            await asyncFunctions.rmdirAsync(`${config.UPLOAD_TEMP_PATH}/`)
-                .catch((err) =>
-                {
-                    log(`Error when deleting temp folder.\n${err.toString()}`);
-                });
+            //TODO: 异步删除非空文件夹
+            /*await asyncFunctions.rmdirAsync(`${config.UPLOAD_TEMP_PATH}/`)
+             .catch((err) =>
+             {
+             log(`Error when deleting temp folder.\n${err.toString()}`);
+             });*/
 
             ctx.body = new response(true, '上传成功');
 
@@ -80,7 +80,7 @@ module.exports = (router) =>
                 file_name: fileName,
                 upload_date: dayString,
                 file_size: fileInfo.size,
-                is_public: !!isPublic,
+                is_public: isPublic === 'true',
                 owner_id: parseInt(id)
             });
 
