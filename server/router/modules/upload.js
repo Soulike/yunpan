@@ -30,6 +30,7 @@ module.exports = (router) =>
         {
             const fileInfo = ctx.req.file;
             const {isPublic} = ctx.req.body;
+            console.log(ctx.req.body.isPublic);
             const date = new Date();
             const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
             const dayString = `${year}.${month}.${day}`;
