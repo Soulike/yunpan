@@ -42,14 +42,14 @@ module.exports = (router) =>
                 }
                 else
                 {
-                    ctx.body = new response(true, '文件已开始下载，请稍后再查看');
                     const id = user.id;
                     const date = new Date();
                     const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
                     const dayString = `${year}.${month}.${day}`;
-                    downloadAsync(link, `${config.PATH_BASE}/${id}/${dayString}/`)
+                    await downloadAsync(link, `${config.PATH_BASE}/${id}/${dayString}/`)
                         .then(async (fileName) =>
                         {
+                            ctx.body = new response(true, '文件已开始下载，请稍后再查看');
                             const fileSize =
                                 await getFileSizeAsync(`${config.PATH_BASE}/${id}/${dayString}/${fileName}`);
                             await db.File.create({
