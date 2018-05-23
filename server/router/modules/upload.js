@@ -8,7 +8,6 @@ const multer = require('koa-multer');
 
 const upload = multer({
     dest: config.UPLOAD_TEMP_PATH,
-    limits: 1073741824
 });
 const path = require('path');
 
@@ -44,7 +43,7 @@ module.exports = (router) =>
                     ctx.body = new response(false, '上传失败');
                 });
 
-            await asyncFunctions.createFolder(`${config.PATH_BASE}/${id}/${dayString}/${fileName}`)
+            await asyncFunctions.createFolder(`${config.PATH_BASE}/${id}/${dayString}/`)
                 .catch((err) =>
                 {
                     log(`Error when uploading.\n${err.toString()}`);
