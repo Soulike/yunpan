@@ -3,7 +3,7 @@ const request = require('request');
 const db = require('../../database');
 const config = require('../../config');
 const {downloadAsync, getFileSizeAsync} = require('../../functions/file');
-const {getUserAsync,isExistAsync} = require('../../functions/asyncFunctions');
+const {getUserAsync, isExistAsync} = require('../../functions/asyncFunctions');
 const {log} = require('../../functions/log');
 const {response} = config;
 
@@ -39,14 +39,18 @@ module.exports = (router) =>
                 if (err || res.statusCode !== 200)
                 {
                     ctx.body = new response(false, '文件链接无效');
+                    await next();
                 }
                 else
                 {
+                    ctx.body = new response(true, '文件已开始下载，请稍后再查看');
+                    await next();
+
                     const id = user.id;
                     const date = new Date();
                     const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
                     const dayString = `${year}.${month}.${day}`;
-                    downloadAsync(link, `${config.PATH_BASE}/${id}/${dayString}/`)
+                    await downloadAsync(link, `${config.PATH_BASE}/${id}/${dayString}/`)
                         .then(async (fileName) =>
                         {
                             const fileSize =
@@ -63,11 +67,8 @@ module.exports = (router) =>
                         {
                             log(`Error when downloading file.\n${err.toString()}`);
                         });
-                    ctx.body = new response(true, '文件已开始下载，请稍后再查看');
                 }
             });
         }
-        console.log(ctx.body);
-        await next();
     });
 };
