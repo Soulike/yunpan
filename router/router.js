@@ -11,5 +11,6 @@ const Router = require('koa-router');
 const router = new Router();
 
 require('./modules/user')(router);
+require('./modules/offlineDownload')(router);
 
 module.exports = router;
