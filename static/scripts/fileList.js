@@ -63,30 +63,6 @@ $(() =>
 
 function refreshFileList()
 {
-    const getFileList = () =>
-    {
-        AJAX('/user/getFileList', {},
-            (res) =>
-            {
-                const {status, msg, data} = res;
-                if (!status)
-                {
-                    showAlert(msg);
-                    return null;
-                }
-                else
-                {
-                    console.log(data.fileList);
-                    return data.fileList;
-                }
-            },
-            (err) =>
-            {
-                showAlert(MSG.ERROR);
-                console.log(err);
-                return null;
-            });
-    };
     const getFileRow = (fileId, fileName, fileSize, createdAt) =>
     {
         return $(`<tr>
@@ -97,16 +73,34 @@ function refreshFileList()
                 </tr>`);
     };
 
-    const fileList = getFileList();
-    if (!Object.is(fileList, null))
-    {
-        const $fileListBody = $('#fileListBody');
-        $fileListBody.html('');
-        for (const file of fileList)
+    AJAX('/user/getFileList', {},
+        (res) =>
         {
-            $fileListBody.append(getFileRow(file.id, file.fileName, file.fileSize, file.createAt));
-        }
-    }
+            const {status, msg, data} = res;
+            if (!status)
+            {
+                showAlert(msg);
+            }
+            else
+            {
+                const fileList = data.fileList;
+                if (!Object.is(fileList, null))
+                {
+                    const $fileListBody = $('#fileListBody');
+                    $fileListBody.html('');
+                    for (const file of fileList)
+                    {
+                        $fileListBody.append(getFileRow(file.id, file.fileName, file.fileSize, file.createAt));
+                    }
+                }
+            }
+        },
+        (err) =>
+        {
+            showAlert(MSG.ERROR);
+            console.log(err);
+        });
+
 }
 
 /*网页加载请求文件列表*/
