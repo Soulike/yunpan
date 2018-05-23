@@ -166,7 +166,7 @@ $(() =>
                 data: formData,
                 processData: false,
                 contentType: false,
-                async: async,
+                async: true,
                 success: (res) =>
                 {
                     const {status, msg} = res;

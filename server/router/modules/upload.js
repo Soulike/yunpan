@@ -16,7 +16,7 @@ const prefix = (router) =>
 
 module.exports = (router) =>
 {
-    router.post('/upload', upload.single('file'), async (ctx, next) =>
+    router.post(prefix('/upload'), upload.single('file'), async (ctx, next) =>
     {
         const user = await asyncFunctions.getUserAsync(ctx.session.id);
         if (Object.is(user, null))
