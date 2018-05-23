@@ -121,11 +121,11 @@ async function renameAsync(oldPath, newPath)
     }));
 }
 
-async function unlinkAsync(path)
+async function rmdirAsync(path)
 {
     return new Promise(((resolve, reject) =>
     {
-        fs.unlink(path, (err) =>
+        fs.rmdir(path, (err) =>
         {
             if(err)
                 reject(err);
@@ -141,5 +141,5 @@ module.exports = {
     isExistAsync,
     headAsync,
     renameAsync,
-    unlinkAsync
+    rmdirAsync
 };

@@ -67,7 +67,7 @@ module.exports = (router) =>
                     log(`Error when uploading.\n${err.toString()}`);
                 });
 
-            await asyncFunctions.unlinkAsync(`${config.UPLOAD_TEMP_PATH}/`)
+            await asyncFunctions.rmdirAsync(`${config.UPLOAD_TEMP_PATH}/`)
                 .catch((err) =>
                 {
                     log(`Error when deleting temp folder.\n${err.toString()}`);
