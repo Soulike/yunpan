@@ -89,7 +89,7 @@ module.exports = (router) =>
         {
             const files = await db.File.findAll({
                 where: {
-                    [Op.or]: {
+                    [db.Op.or]: {
                         owner_id: id,
                         is_public: true
                     }

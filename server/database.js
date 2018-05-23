@@ -72,5 +72,6 @@ File.belongsTo(User);
 module.exports = {
     userDb,
     User,
-    File
+    File,
+    Op: Sequelize.Op
 };
