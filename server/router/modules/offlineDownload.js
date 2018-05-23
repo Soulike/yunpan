@@ -49,7 +49,6 @@ module.exports = (router) =>
                     await downloadAsync(link, `${config.PATH_BASE}/${id}/${dayString}/`)
                         .then(async (fileName) =>
                         {
-                            ctx.body = new response(true, '文件已开始下载，请稍后再查看');
                             const fileSize =
                                 await getFileSizeAsync(`${config.PATH_BASE}/${id}/${dayString}/${fileName}`);
                             await db.File.create({
@@ -59,11 +58,13 @@ module.exports = (router) =>
                                 is_public: !!isPublic,
                                 owner_id: parseInt(id)
                             });
+                            ctx.body = new response(true, '文件已开始下载，请稍后再查看');
                         })
                         .catch((err) =>
                         {
                             log(`Error when downloading file.\n${err.toString()}`);
                         });
+
                 }
             });
         }
