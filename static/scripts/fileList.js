@@ -76,6 +76,7 @@ function refreshFileList()
                 }
                 else
                 {
+                    console.log(data);
                     return data.fileList;
                 }
             },
