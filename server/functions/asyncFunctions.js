@@ -52,7 +52,7 @@ async function createFolder(path)
 {
     if (path[path.length - 1] === '/')// 删除最后一个/
     {
-        path.length = path.length - 1;
+        path = path.slice(0, -1);
     }
     if (path[0] === '/')// 删除第一个/
     {
