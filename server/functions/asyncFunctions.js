@@ -121,10 +121,25 @@ async function renameAsync(oldPath, newPath)
     }));
 }
 
+async function unlinkAsync(path)
+{
+    return new Promise(((resolve, reject) =>
+    {
+        fs.unlink(path, (err) =>
+        {
+            if(err)
+                reject(err);
+            else
+                resolve();
+        });
+    }));
+}
+
 module.exports = {
     getUserAsync,
     createFolder,
     isExistAsync,
     headAsync,
-    renameAsync
+    renameAsync,
+    unlinkAsync
 };

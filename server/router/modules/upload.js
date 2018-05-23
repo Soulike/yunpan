@@ -7,7 +7,7 @@ const {response} = config;
 const multer = require('koa-multer');
 
 const upload = multer({
-    dest: config.UPLOAD_TEMP_PATH,
+    dest: config.UPLOAD_TEMP_PATH
 });
 const path = require('path');
 
@@ -40,14 +40,12 @@ module.exports = (router) =>
                 .catch((err) =>
                 {
                     log(`Error when uploading.\n${err.toString()}`);
-                    ctx.body = new response(false, '上传失败');
                 });
 
             await asyncFunctions.createFolder(`${config.PATH_BASE}/${id}/${dayString}/`)
                 .catch((err) =>
                 {
                     log(`Error when uploading.\n${err.toString()}`);
-                    ctx.body = new response(false, '上传失败');
                 });
 
             if (await asyncFunctions.isExistAsync(`${config.PATH_BASE}/${id}/${dayString}/${fileName}`))//如果文件已经存在，则从(2)开始尝试
@@ -67,7 +65,12 @@ module.exports = (router) =>
                 .catch((err) =>
                 {
                     log(`Error when uploading.\n${err.toString()}`);
-                    ctx.body = new response(false, '上传失败');
+                });
+
+            await asyncFunctions.unlinkAsync(`${config.UPLOAD_TEMP_PATH}/`)
+                .catch((err) =>
+                {
+                    log(`Error when deleting temp folder.\n${err.toString()}`);
                 });
 
             ctx.body = new response(true, '上传成功');
