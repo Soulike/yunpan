@@ -93,7 +93,8 @@ module.exports = (router) =>
                         owner_id: id,
                         is_public: true
                     }
-                }
+                },
+                order: [['createdAt', 'DESC']]
             });
             let data = {fileList: []};
             for (const file of files)
