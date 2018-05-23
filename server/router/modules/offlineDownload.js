@@ -44,6 +44,7 @@ module.exports = (router) =>
                 else
                 {
                     ctx.body = new response(true, '文件已开始下载，请稍后再查看');
+                    console.log(ctx.body);
                     await next();
 
                     const id = user.id;
