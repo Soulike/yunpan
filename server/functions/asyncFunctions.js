@@ -1,6 +1,7 @@
 'use strict';
 const db = require('../database');
 const fs = require('fs');
+const request = require('request');
 
 /*通过id来返回数据库当中的对应用户*/
 async function getUserAsync(id)
@@ -79,8 +80,31 @@ async function createFolder(path)
 
 }
 
+// request.head 的异步版本
+async function headAsync(link)
+{
+    return new Promise(((resolve, reject) =>
+    {
+        request.head(link, (err, res, body) =>
+        {
+            if (err)
+            {
+                reject(err);
+            }
+            else
+            {
+                resolve({
+                    res,
+                    body
+                });
+            }
+        });
+    }));
+}
+
 module.exports = {
     getUserAsync,
     createFolder,
-    isExistAsync
+    isExistAsync,
+    headAsync
 };

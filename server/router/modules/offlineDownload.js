@@ -1,9 +1,8 @@
 'use strict';
-const request = require('request');
 const db = require('../../database');
 const config = require('../../config');
 const {downloadAsync, getFileSizeAsync} = require('../../functions/file');
-const {getUserAsync, isExistAsync} = require('../../functions/asyncFunctions');
+const {getUserAsync, headAsync} = require('../../functions/asyncFunctions');
 const {log} = require('../../functions/log');
 const {response} = config;
 
@@ -34,39 +33,42 @@ module.exports = (router) =>
         }
         else//用户身份确认，发送head请求试探目标链接是否有效
         {
-            request.head(link, async (err, res, body) =>
-            {
-                if (err || res.statusCode !== 200)
+            const {res, body} = await headAsync(link)
+                .catch((err) =>
                 {
                     ctx.body = new response(false, '文件链接无效');
-                }
-                else
-                {
-                    ctx.body = new response(true, '文件已开始下载，请稍后再查看');
-                    const id = user.id;
-                    const date = new Date();
-                    const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
-                    const dayString = `${year}.${month}.${day}`;
-                    await downloadAsync(link, `${config.PATH_BASE}/${id}/${dayString}/`)
-                        .then(async (fileName) =>
-                        {
-                            const fileSize =
-                                await getFileSizeAsync(`${config.PATH_BASE}/${id}/${dayString}/${fileName}`);
-                            await db.File.create({
-                                file_name: fileName,
-                                upload_date: dayString,
-                                file_size: parseInt(fileSize),
-                                is_public: !!isPublic,
-                                owner_id: parseInt(id)
-                            });
-                        })
-                        .catch((err) =>
-                        {
-                            log(`Error when downloading file.\n${err.toString()}`);
+                });
+
+            if (res.statusCode !== 200)
+            {
+                ctx.body = new response(false, '文件链接无效');
+            }
+            else
+            {
+                ctx.body = new response(true, '文件已开始下载，请稍后再查看');
+                const id = user.id;
+                const date = new Date();
+                const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
+                const dayString = `${year}.${month}.${day}`;
+                await downloadAsync(link, `${config.PATH_BASE}/${id}/${dayString}/`)
+                    .then(async (fileName) =>
+                    {
+                        const fileSize =
+                            await getFileSizeAsync(`${config.PATH_BASE}/${id}/${dayString}/${fileName}`);
+                        await db.File.create({
+                            file_name: fileName,
+                            upload_date: dayString,
+                            file_size: parseInt(fileSize),
+                            is_public: !!isPublic,
+                            owner_id: parseInt(id)
                         });
-                }
-                await next();
-            });
+                    })
+                    .catch((err) =>
+                    {
+                        log(`Error when downloading file.\n${err.toString()}`);
+                    });
+            }
         }
+        await next();
     });
 };
