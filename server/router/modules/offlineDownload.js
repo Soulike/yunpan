@@ -39,14 +39,10 @@ module.exports = (router) =>
                 if (err || res.statusCode !== 200)
                 {
                     ctx.body = new response(false, '文件链接无效');
-                    await next();
                 }
                 else
                 {
                     ctx.body = new response(true, '文件已开始下载，请稍后再查看');
-                    console.log(ctx.body);
-                    await next();
-
                     const id = user.id;
                     const date = new Date();
                     const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
@@ -71,5 +67,7 @@ module.exports = (router) =>
                 }
             });
         }
+        console.log(ctx.body);
+        await next();
     });
 };
