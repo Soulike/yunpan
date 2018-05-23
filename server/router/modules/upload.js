@@ -63,7 +63,7 @@ module.exports = (router) =>
                 }
             }
 
-            await asyncFunctions.renameAsync(`${config.UPLOAD_TEMP_PATH}/${fileInfo.originalname}`, `${config.PATH_BASE}/${id}/${dayString}/${fileName}`)
+            await asyncFunctions.renameAsync(`${config.UPLOAD_TEMP_PATH}/${fileInfo.filename}`, `${config.PATH_BASE}/${id}/${dayString}/${fileName}`)
                 .catch((err) =>
                 {
                     log(`Error when uploading.\n${err.toString()}`);
