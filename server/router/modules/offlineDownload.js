@@ -63,8 +63,8 @@ module.exports = (router) =>
                         {
                             log(`Error when downloading file.\n${err.toString()}`);
                         });
+                    ctx.body = new response(true, '文件已开始下载，请稍后再查看');
                 }
-                ctx.body = new response(true, '文件已开始下载，请稍后再查看');
             });
         }
         await next();
