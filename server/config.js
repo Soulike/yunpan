@@ -29,7 +29,7 @@ class response
     {
         this.status = status;
         this.msg = msg;
-        this.data = JSON.stringify(data);
+        this.data = data;
     }
 }
 
