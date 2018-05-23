@@ -26,7 +26,7 @@ $(() =>
         }
         else
         {
-            AJAX('/server/offlineDownload/downloadLink', {
+            AJAX('/offlineDownload/downloadLink', {
                 link: link,
                 isPublic: isPublic
             }, (res) =>
