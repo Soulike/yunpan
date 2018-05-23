@@ -102,9 +102,29 @@ async function headAsync(link)
     }));
 }
 
+// fs.rename 的异步版本，用于异步剪切文件
+async function renameAsync(oldPath, newPath)
+{
+    return new Promise(((resolve, reject) =>
+    {
+        fs.rename(oldPath, newPath, (err) =>
+        {
+            if (err)
+            {
+                reject(err);
+            }
+            else
+            {
+                resolve();
+            }
+        });
+    }));
+}
+
 module.exports = {
     getUserAsync,
     createFolder,
     isExistAsync,
-    headAsync
+    headAsync,
+    renameAsync
 };

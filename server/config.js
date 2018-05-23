@@ -22,6 +22,7 @@ const SESSION_CONFIG = {
 const PORT = 8002;
 
 const PATH_BASE = '/home/soulike/servers/yunpan/static/files';
+const UPLOAD_TEMP_PATH = `${PATH_BASE}/uploadTemp`;
 
 class response
 {
@@ -39,5 +40,6 @@ module.exports = {
     SESSION_CONFIG,
     PORT,
     PATH_BASE,
+    UPLOAD_TEMP_PATH,
     response
 };

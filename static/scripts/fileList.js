@@ -136,3 +136,66 @@ $(() =>
 {
     refreshRatios();
 });
+
+
+/*文件上传*/
+$(() =>
+{
+    const $uploadControl = $('#uploadControl');
+    const $uploadProgressBar = $('#uploadProgressBar');
+    const $uploadIsPublicCheckbox = $('#uploadIsPublicCheckbox');
+    const $uploadModalBtn = $('#uploadModalBtn');
+
+    $uploadModalBtn.click((e) =>
+    {
+        e.preventDefault();
+
+        let formData = new FormData;
+        for (let i = 0; i < $uploadControl[0].files.length; i++)
+        {
+            formData.append(`file`, $uploadControl[0].files[i]);
+        }
+        formData.append('isPublic', $uploadIsPublicCheckbox.prop('checked'));
+        $.ajax(
+            {
+                xhrFields: {
+                    withCredentials: true
+                },
+                url: `https://${DOMAIN}/server/upload`,
+                method: 'post',
+                data: formData,
+                processData: false,
+                contentType: false,
+                async: async,
+                success: (res) =>
+                {
+                    const {status, msg} = res;
+                    showAlert(msg, status);
+                },
+                error: (err) =>
+                {
+                    showAlert(MSG.ERROR);
+                    console.log(err);
+                },
+                xhr: function ()
+                {
+                    //获取ajaxSettings中的xhr对象，为它的upload属性绑定progress事件的处理函数
+                    let myXhr = $.ajaxSettings.xhr();
+                    if (myXhr.upload)
+                    { //检查upload属性是否存在
+                        myXhr.upload.addEventListener('progress', function (event)//绑定progress事件的回调函数
+                        {
+                            if (event.lengthComputable)
+                            {
+                                let percent = event.loaded / event.total * 100;
+                                $uploadProgressBar.css('width', percent + '%');
+                            }
+                        }, false);
+                    }
+                    return myXhr; //xhr对象返回给jQuery使用
+                }
+            });
+    });
+
+    /**/
+});

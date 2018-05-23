@@ -74,7 +74,6 @@ function AJAX(suffix, data, successFunction, errorFunction, async = true)
             error: errorFunction
         });
 }
-
 function hideModal(selector)
 {
     $(selector).modal('hide');
