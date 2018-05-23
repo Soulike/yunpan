@@ -6,7 +6,10 @@ const asyncFunctions = require('../../functions/asyncFunctions');
 const {response} = config;
 const multer = require('koa-multer');
 
-const upload = multer({dest: config.UPLOAD_TEMP_PATH});
+const upload = multer({
+    dest: config.UPLOAD_TEMP_PATH,
+    limits: 1073741824
+});
 const path = require('path');
 
 const prefix = (router) =>
