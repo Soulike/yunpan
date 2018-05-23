@@ -171,6 +171,7 @@ $(() =>
                 {
                     const {status, msg} = res;
                     showAlert(msg, status);
+                    refreshFileList();
                 },
                 error: (err) =>
                 {
@@ -189,7 +190,7 @@ $(() =>
                             {
                                 let percent = event.loaded / event.total * 100;
                                 $uploadProgressBar.css('width', percent + '%');
-                                $uploadControl.change(()=>
+                                $uploadControl.change(() =>
                                 {
                                     $uploadProgressBar.css('width', '0' + '%');
                                 });
@@ -202,4 +203,14 @@ $(() =>
     });
 
     /**/
+});
+
+/*Modal隐藏时reset所有表单*/
+$(() =>
+{
+    const $modal = $('.modal');
+    $modal.on('hidden.bs.modal', (e) =>
+    {
+        $(e.target).find('form')[0].reset();
+    });
 });
