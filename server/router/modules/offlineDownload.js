@@ -2,8 +2,8 @@
 const request = require('request');
 const db = require('../../database');
 const config = require('../../config');
-const {downloadAsync} = require('../../functions/file');
-const {getUser} = require('../../functions/asyncFunctions');
+const {downloadAsync, getFileSizeAsync} = require('../../functions/file');
+const {getUserAsync} = require('../../functions/asyncFunctions');
 const {log} = require('../../functions/log');
 const {response} = config;
 
@@ -27,7 +27,7 @@ module.exports = (router) =>
     router.post(prefix('/downloadLink'), async (ctx, next) =>
     {
         const {link, isPublic} = ctx.request.body;
-        const user = getUser(ctx.session.id);
+        const user = getUserAsync(ctx.session.id);
         if (Object.is(user, null))//如果用户不存在或cookie失效
         {
             ctx.body = new response(false, '身份认证失效，请重新登录');
@@ -42,19 +42,22 @@ module.exports = (router) =>
                 }
                 else
                 {
-                    ctx.body = new response(true,'文件已开始下载');
+                    ctx.body = new response(true, '文件已开始下载，请稍后再查看');
                     const id = user.id;
                     const date = new Date();
                     const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
                     const dayString = `${year}.${month}.${day}`;
-                    await downloadAsync(link, `/home/soulike/servers/yunpan/static/files/${id}/${dayString}/`)
+                    await downloadAsync(link, `${config.PATH_BASE}/${id}/${dayString}/`)
                         .then(async (fileName) =>
                         {
+                            const fileSize =
+                                await getFileSizeAsync(`${config.PATH_BASE}/${id}/${dayString}/${fileName}`);
                             await db.File.create({
                                 file_name: fileName,
                                 upload_date: dayString,
-                                is_public: isPublic,
-                                owner_id: id
+                                file_size: parseInt(fileSize),
+                                is_public: !!isPublic,
+                                owner_id: parseInt(id)
                             });
                         })
                         .catch((err) =>

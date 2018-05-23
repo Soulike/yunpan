@@ -7,10 +7,10 @@ const session = require('koa-session');
 
 const helmet = require('koa-helmet');
 const bodyParser = require('koa-bodyparser');
-const router = require('./router/router');
-const config = require('./config');
-const {log} = require('./functions/log');
-const {userDb} = require('./database');
+const router = require('./server/router/router');
+const config = require('./server/config');
+const {log} = require('./server/functions/log');
+const {userDb} = require('./server/database');
 
 app.use(helmet());
 app.use(bodyParser());

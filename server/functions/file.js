@@ -36,5 +36,27 @@ async function downloadAsync(fileUrl, localFolder)
     });
 }
 
+// 查看文件的大小
+async function getFileSizeAsync(filePath)
+{
+    return new Promise(((resolve, reject) =>
+    {
+        fs.stat(filePath, (err, stats) =>
+        {
+            if (err)
+            {
+                reject(err);
+            }
+            else
+            {
+                resolve(stats.size);
+            }
+        });
+    }));
+}
 
-module.exports = {downloadAsync};
+
+module.exports = {
+    downloadAsync,
+    getFileSizeAsync
+};

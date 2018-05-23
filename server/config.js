@@ -21,13 +21,15 @@ const SESSION_CONFIG = {
 
 const PORT = 8002;
 
+const PATH_BASE = '/home/soulike/servers/yunpan/static/files';
+
 class response
 {
     constructor(status, msg, data = {})
     {
         this.status = status;
         this.msg = msg;
-        this.data = data;
+        this.data = JSON.stringify(data);
     }
 }
 
@@ -36,5 +38,6 @@ module.exports = {
     REGEXP,
     SESSION_CONFIG,
     PORT,
+    PATH_BASE,
     response
 };

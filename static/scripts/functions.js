@@ -36,7 +36,8 @@ function showAlert(content, isSuccess = false)
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%,-50%);`;
+    transform: translate(-50%,-50%);
+    z-index: 999999999;`;
 
     const alertType = isSuccess === true ? 'alert-success' : 'alert-danger';
     const $alert = $(`<div class="alert ${alertType}" role="alert" style="${alertStyle}">
@@ -71,4 +72,9 @@ function AJAX(suffix, data, successFunction, errorFunction, async = true)
             success: successFunction,
             error: errorFunction
         });
+}
+
+function hideModal(selector)
+{
+    $(selector).modal('hide');
 }

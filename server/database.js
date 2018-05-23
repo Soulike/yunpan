@@ -39,6 +39,12 @@ const File = userDb.define('file',
             notNull: true
         },
 
+        // 文件的大小，单位是字节
+        file_size: {
+            type: Sequelize.BIGINT,
+            notNull: true
+        },
+
         //这个文件是否是所有人可见的
         is_public: {
             type: Sequelize.BOOLEAN,
@@ -60,6 +66,8 @@ const File = userDb.define('file',
     }
 );
 
+User.hasMany(File);
+File.belongsTo(User);
 
 module.exports = {
     userDb,

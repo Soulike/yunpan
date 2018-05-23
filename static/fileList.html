@@ -3,12 +3,173 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="component/topBar.css">
+    <link rel="stylesheet" href="component/footer.css">
     <link rel="stylesheet" href="stylesheets/fileList.css">
     <title>文件列表 - 云盘</title>
 </head>
 <body>
+<div class="container">
+    <div id="topBar" class="col-12">
+        <div id="avatarDiv">
+            <a href="https://soulike.tech/about.html">
+                <img id="avatar" src="https://soulike.tech/images/avatar.png" alt="avatar">
+            </a>
+        </div>
+        <div id="links">
+            <ul id="linksList">
+                <li class="item"><a href="https://soulike.tech/" class="link">首页</a></li>
+                <li class="item"><a href="https://soulike.tech/blog/essay" class="link">随笔</a></li>
+                <li class="item"><a href="#" class="link">源码</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="formArea" class="col-11">
+        <div id="buttonArea" class="col-12">
+            <button class="btn btn-primary" id="downloadBtn">下载</button>
+            <button class="btn" id="uploadBtn" data-toggle="modal" data-target="#uploadModal">上传文件</button>
+            <button class="btn" id="offlineDownloadBtn" data-toggle="modal" data-target="#offlineDownloadModal">
+                离线下载
+            </button>
+            <button class="btn btn-danger" id="deleteBtn" data-toggle="modal" data-target="#deleteModal">删除</button>
+            <button class="btn btn-warning" id="logoutBtn" data-toggle="modal" data-target="#logoutModal">
+                退出登录
+            </button>
+        </div>
+        <div class="jumbotron col-12" id="fileListArea">
+            <h2>文件列表</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col" id="fileNameCol">文件名</th>
+                    <th scope="col">文件大小</th>
+                    <th scope="col">创建时间</th>
+                </tr>
+                </thead>
+                <tbody id="fileListBody">
+                <tr>
+                    <td><input type="radio"></td>
+                    <td>afaefaefaef.txt</td>
+                    <td>23M</td>
+                    <td>2018-05-23 15:39:33</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div id="footerLinksWrapper">
+        <a href="https://github.com/Soulike/hash-generation" class="footerLink" target="_blank">Github 仓库</a>
+        <a href="#" target="_blank">关于本站</a></div>
+    <div id="thanksWrapper">本网站使用图片资源均来自网络，如有侵权请联系删除。</div>
+</footer>
 
 
+<!--Upload Modal -->
+<div class="modal fade" id="uploadModal" tabindex="-1" role="dialog" aria-labelledby="uploadModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="uploadModalLabel">上传文件</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="#">
+                    <input type="file" class="form-control-file" required>
+                    <div class="progress" id="uploadProgressBarArea">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated"
+                             role="progressbar"
+                             aria-valuemin="0"
+                             aria-valuemax="100"
+                             id="uploadProgressBar"></div>
+                    </div>
+                    <div class="form-check isPublicCheckboxArea">
+                        <input type="checkbox" id="uploadIsPublicCheckbox" class="form-check-input">
+                        <label for="uploadIsPublicCheckbox" class="form-check-label">保存为公共文件</label>
+                    </div>
+                    <button class="btn btn-primary col-12 modalBtn" id="uploadModalBtn">上传</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--offlineDownload Modal -->
+<div class="modal fade" id="offlineDownloadModal" tabindex="-1" role="dialog" aria-labelledby="offlineDownloadModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="offlineDownloadModalLabel">离线下载</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="#">
+                    <input type="text" class="form-control" id="offlineDownloadLink" placeholder="下载链接" required>
+                    <div class="form-check isPublicCheckboxArea">
+                        <input type="checkbox" id="offlineDownloadIsPublicCheckbox" class="form-check-input">
+                        <label for="offlineDownloadIsPublicCheckbox" class="form-check-label">保存为公共文件</label>
+                    </div>
+                    <button class="btn btn-primary col-12 modalBtn" id="offlineDownloadModalBtn">提交</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">删除文件</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                确认删除文件 <span id="deleteFileName">文件名</span>？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-danger">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Logout Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">退出登录</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                确认退出登陆？
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-warning">确定</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script src="scripts/jquery-3.3.1.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/4.1.1/js/bootstrap.js"></script>
 <script src="scripts/config.js"></script>

@@ -3,7 +3,7 @@ const db = require('../database');
 const fs = require('fs');
 
 /*通过id来返回数据库当中的对应用户*/
-async function getUser(id)
+async function getUserAsync(id)
 {
     if (id === undefined)
     {
@@ -80,6 +80,6 @@ async function createFolder(path)
 }
 
 module.exports = {
-    getUser,
+    getUserAsync,
     createFolder
 };

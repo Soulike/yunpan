@@ -2,6 +2,7 @@
 const JsSHA = require('jssha');
 const db = require('../../database');
 const config = require('../../config');
+const {getUserAsync} = require('../../functions/asyncFunctions');
 const {log} = require('../../functions/log');
 const {response} = config;
 
@@ -60,6 +61,51 @@ module.exports = (router) =>
                     ctx.body = new response(true, '登陆成功');
                 }
             }
+        }
+        await next();
+    });
+
+    /*获取用户的文件列表
+     * 前端不需要发送任何数据
+     * 后端发送数据格式
+     * {
+     *     fileList:
+     *     [
+     *         {id,fileName,fileSize,createAt},
+     *         {id,fileName,fileSize,createAt},
+     *         {id,fileName,fileSize,createAt}
+     *     ]
+     * }
+     * */
+    router.post(prefix('/getFileList'), async (ctx, next) =>
+    {
+        const id = ctx.session.id;
+        const user = await getUserAsync(id);
+        if (Object.is(user, null))
+        {
+            ctx.body = new response(false, '身份认证失效，请重新登录');
+        }
+        else
+        {
+            const files = await db.File.findAll({
+                where: {
+                    [Op.or]: {
+                        owner_id: id,
+                        is_public: true
+                    }
+                }
+            });
+            let data = {fileList: []};
+            for (const file of files)
+            {
+                data.fileList.push({
+                    id: file.id,
+                    fileName: file.file_name,
+                    fileSize: file.file_size,
+                    createAt: file.createAt
+                });
+            }
+            ctx.body = new response(true, '文件列表获取成功', data);
         }
         await next();
     });
