@@ -32,9 +32,6 @@
                 离线下载
             </button>
             <button class="btn btn-danger" id="deleteBtn" data-toggle="modal" data-target="#deleteModal">删除</button>
-            <button class="btn btn-warning" id="logoutBtn" data-toggle="modal" data-target="#logoutModal">
-                退出登录
-            </button>
         </div>
         <div class="jumbotron col-12" id="fileListArea">
             <div id="tableTitle">
@@ -42,7 +39,7 @@
                 <button id="refreshFileListBtn" class="btn btn-info">刷新</button>
             </div>
 
-            <table class="table table-striped">
+            <table class="table table-hover">
                 <thead>
                 <tr>
                     <th scope="col"></th>
@@ -52,7 +49,13 @@
                 </tr>
                 </thead>
                 <tbody id="fileListBody">
-                <tr>
+                <tr class="fileListRow">
+                    <td><input type="radio"></td>
+                    <td>afaefaefaef.txt</td>
+                    <td>23M</td>
+                    <td>2018-05-23 15:39:33</td>
+                </tr>
+                <tr class="fileListRow">
                     <td><input type="radio"></td>
                     <td>afaefaefaef.txt</td>
                     <td>23M</td>
@@ -149,27 +152,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
                 <button type="button" class="btn btn-danger">确定</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!--Logout Modal -->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="logoutModalLabel">退出登录</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                确认退出登陆？
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-warning">确定</button>
             </div>
         </div>
     </div>

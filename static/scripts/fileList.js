@@ -65,7 +65,7 @@ function refreshFileList()
 {
     const getFileRow = (fileId, fileName, fileSize, createdAt) =>
     {
-        return $(`<tr>
+        return $(`<tr class="fileListRow">
                     <td><input type="radio" data-fileID="${fileId}"></td>
                     <td>${fileName}</td>
                     <td>${(fileSize / 1024 / 1024).toFixed(2)} M</td>
@@ -92,6 +92,7 @@ function refreshFileList()
                     {
                         $fileListBody.append(getFileRow(file.id, file.fileName, file.fileSize, file.createdAt));
                     }
+                    refreshRatios();
                 }
             }
         },
@@ -118,4 +119,20 @@ $(() =>
         e.preventDefault();
         refreshFileList();
     });
+});
+
+/*在点击行时，可以选中对应行的radio*/
+function refreshRatios()
+{
+    const $fileListRow = $('.fileListRow');
+    $fileListRow.click((e) =>
+    {
+        $fileListRow.find('input[type=radio]').prop('checked', false);//清除所有其他radio
+        $(e.target).parent().find('input[type=radio]').prop('checked', true);//把当前行radio选中
+    });
+}
+
+$(() =>
+{
+    refreshRatios();
 });
