@@ -20,11 +20,12 @@ async function downloadAsync(fileUrl, localFolder)
             });
         if (await asyncFunction.isExistAsync(`${localFolder}/${fileName}`))//如果文件已经存在，则从(2)开始尝试
         {
+            const {ext,name} = path.parse(fileName);
             for (let i = 2; ; i++)
             {
-                if (!(await asyncFunction.isExistAsync(`${localFolder}/${fileName}(${i})`)))
+                if (!(await asyncFunction.isExistAsync(`${localFolder}/${name}(${i})${ext}`)))
                 {
-                    fileName = `${fileName}(${i})`;
+                    fileName = `${name}(${i})${ext}`;
                     break;
                 }
             }
