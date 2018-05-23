@@ -46,7 +46,7 @@ module.exports = (router) =>
                     const date = new Date();
                     const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
                     const dayString = `${year}.${month}.${day}`;
-                    downloadAsync(link, `${config.PATH_BASE}/${id}/${dayString}/`)
+                    await downloadAsync(link, `${config.PATH_BASE}/${id}/${dayString}/`)
                         .then(async (fileName) =>
                         {
                             const fileSize =
