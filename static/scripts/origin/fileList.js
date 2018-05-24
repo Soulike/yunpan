@@ -244,7 +244,6 @@ $(() =>
                     const {status, msg, data} = res;
                     showAlert(msg, status);
                     download(data.downloadLink);
-                    console.log(data.downloadLink);
                 },
                 (err) =>
                 {
