@@ -81,7 +81,7 @@ module.exports = (router) =>
     router.get(prefix('/visitorLogin'), async (ctx, next) =>
     {
         ctx.session.id = 0;
-        ctx.redirect('fileList.html');
+        ctx.redirect('back', '/fileList.html');
         await next();
     });
 
