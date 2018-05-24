@@ -24,6 +24,7 @@ module.exports = (router) =>
      * */
     router.post(prefix('/downloadLink'), async (ctx, next) =>
     {
+        let hasResponded = false;
         try
         {
             const {link, isPublic} = ctx.request.body;
@@ -47,6 +48,9 @@ module.exports = (router) =>
                 else
                 {
                     ctx.body = new response(true, '文件已开始下载，请稍后再查看');
+                    hasResponded = true;
+                    await next();
+
                     const id = user.id;
                     const date = new Date();
                     const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
@@ -71,8 +75,10 @@ module.exports = (router) =>
         }
         finally
         {
-            await next();
+            if (hasResponded === false)
+            {
+                await next();
+            }
         }
-
     });
 };
