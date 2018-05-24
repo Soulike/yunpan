@@ -265,11 +265,12 @@ $(() =>
     const $deleteModal = $('#deleteModal');
     const $deleteModalBtn = $('#deleteModalBtn');
     const $deleteFileName = $('#deleteFileName');
+    let $selected = null;
 
     $deleteBtn.click((e) =>
     {
         e.preventDefault();
-        const $selected = $('input[type=radio]:checked');
+        $selected = $('input[type=radio]:checked');
         if ($selected.length === 0)
         {
             showAlert('请选择要删除的文件');
@@ -283,24 +284,25 @@ $(() =>
             const $fileName = $selected.parent().siblings('.fileName');
             $deleteFileName.text($fileName.text());
             $deleteModal.modal('show');
-            $deleteModalBtn.click((e) =>
-            {
-                e.preventDefault();
-                const fileId = $selected.attr('data-fileid');
-                AJAX('/delete', {fileId: fileId},
-                    (res) =>
-                    {
-                        const {status, msg, data} = res;
-                        showAlert(msg, status);
-                        $deleteModal.modal('hide');
-                        refreshFileList();
-                    },
-                    (err) =>
-                    {
-                        showAlert(MSG.ERROR);
-                        console.log(err);
-                    });
-            });
         }
+    });
+
+    $deleteModalBtn.click((e) =>
+    {
+        e.preventDefault();
+        const fileId = $selected.attr('data-fileid');
+        AJAX('/delete', {fileId: fileId},
+            (res) =>
+            {
+                const {status, msg, data} = res;
+                showAlert(msg, status);
+                $deleteModal.modal('hide');
+                refreshFileList();
+            },
+            (err) =>
+            {
+                showAlert(MSG.ERROR);
+                console.log(err);
+            });
     });
 });
