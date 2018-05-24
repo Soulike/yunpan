@@ -86,9 +86,9 @@ module.exports = (router) =>
                 }
                 else
                 {
-                    const {file_name: fileName, upload_date: dayString} = file;
+                    const {file_name: fileName, upload_date: dayString, owner_id: ownerId} = file;
                     ctx.response.set('Content-Disposition', `attachment; filename=${encodeURI(fileName)}`);
-                    await send(ctx, `${fileId}/${dayString}/${fileName}`, {root: `${config.PATH_BASE}/`});
+                    await send(ctx, `${ownerId}/${dayString}/${fileName}`, {root: `${config.PATH_BASE}/`});
                 }
             }
         }
