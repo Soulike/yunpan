@@ -238,7 +238,7 @@ $(() =>
         else
         {
             const fileId = $selected.attr('data-fileid');
-            AJAX('/download/getDownloadLink', {fileId: fileId},
+            AJAX('server/download/getDownloadLink', {fileId: fileId},
                 (res) =>
                 {
                     const {status, msg, data} = res;
