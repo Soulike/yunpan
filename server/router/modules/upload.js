@@ -20,70 +20,67 @@ module.exports = (router) =>
 {
     router.post(prefix('/upload'), upload.single('file'), async (ctx, next) =>
     {
-        const id = ctx.session.id;
-        const user = await asyncFunctions.getUserAsync(id);
-        if (Object.is(user, null))
+        try
         {
-            ctx.body = new response(false, '身份认证失效，请重新登录');
-        }
-        else
-        {
-            const fileInfo = ctx.req.file;
-            const {isPublic} = ctx.req.body;
-            const date = new Date();
-            const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
-            const dayString = `${year}.${month}.${day}`;
-
-            let fileName = fileInfo.originalname;
-
-            await asyncFunctions.createFolder(`${config.UPLOAD_TEMP_PATH}/`)//创建上传临时目录
-                .catch((err) =>
-                {
-                    log(`Error when uploading.\n${err.toString()}`);
-                });
-
-            await asyncFunctions.createFolder(`${config.PATH_BASE}/${id}/${dayString}/`)
-                .catch((err) =>
-                {
-                    log(`Error when uploading.\n${err.toString()}`);
-                });
-
-            if (await asyncFunctions.isExistAsync(`${config.PATH_BASE}/${id}/${dayString}/${fileName}`))//如果文件已经存在，则从(2)开始尝试
+            const id = ctx.session.id;
+            const user = await asyncFunctions.getUserAsync(id);
+            if (Object.is(user, null))
             {
-                const {ext, name} = path.parse(fileName);
-                for (let i = 2; ; i++)
+                ctx.body = new response(false, '身份认证失效，请重新登录');
+            }
+            else
+            {
+                const fileInfo = ctx.req.file;
+                const {isPublic} = ctx.req.body;
+                const date = new Date();
+                const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
+                const dayString = `${year}.${month}.${day}`;
+
+                let fileName = fileInfo.originalname;
+                await asyncFunctions.createFolder(`${config.UPLOAD_TEMP_PATH}/`);//创建上传临时目录
+                await asyncFunctions.createFolder(`${config.PATH_BASE}/${id}/${dayString}/`);
+                if (await asyncFunctions.isExistAsync(`${config.PATH_BASE}/${id}/${dayString}/${fileName}`))//如果文件已经存在，则从(2)开始尝试
                 {
-                    if (!(await asyncFunctions.isExistAsync(`${config.PATH_BASE}/${id}/${dayString}/${name}(${i})${ext}`)))
+                    const {ext, name} = path.parse(fileName);
+                    for (let i = 2; ; i++)
                     {
-                        fileName = `${name}(${i})${ext}`;
-                        break;
+                        if (!(await asyncFunctions.isExistAsync(`${config.PATH_BASE}/${id}/${dayString}/${name}(${i})${ext}`)))
+                        {
+                            fileName = `${name}(${i})${ext}`;
+                            break;
+                        }
                     }
                 }
+
+                await db.File.create({
+                    file_name: fileName,
+                    upload_date: dayString,
+                    file_size: fileInfo.size,
+                    is_public: isPublic === 'true',
+                    owner_id: parseInt(id)
+                });
+                ctx.body = new response(true, '上传成功');
+
+                try
+                {
+                    await asyncFunctions.renameAsync(`${config.UPLOAD_TEMP_PATH}/${fileInfo.filename}`, `${config.PATH_BASE}/${id}/${dayString}/${fileName}`);
+                    await asyncFunctions.removeFolderAsync(`${config.UPLOAD_TEMP_PATH}/`);
+                }
+                catch (e)
+                {
+                    log(`Error when removing temp folder.\n${e.toString()}`);
+                }
             }
-
-            await asyncFunctions.renameAsync(`${config.UPLOAD_TEMP_PATH}/${fileInfo.filename}`, `${config.PATH_BASE}/${id}/${dayString}/${fileName}`)
-                .catch((err) =>
-                {
-                    log(`Error when uploading.\n${err.toString()}`);
-                });
-
-            await asyncFunctions.removeFolderAsync(`${config.UPLOAD_TEMP_PATH}/`)
-                .catch((err) =>
-                {
-                    log(`Error when removing temp folder.\n${err.toString()}`);
-                });
-
-            ctx.body = new response(true, '上传成功');
-
-            await db.File.create({
-                file_name: fileName,
-                upload_date: dayString,
-                file_size: fileInfo.size,
-                is_public: isPublic === 'true',
-                owner_id: parseInt(id)
-            });
-
         }
-        await next();
+        catch (e)
+        {
+            log(`Error when uploading.\n${e.toString()}`);
+            ctx.body = new response(false, config.RESPONSE_MSG.INTERNAL_SERVER_ERROR);
+        }
+        finally
+        {
+            await next();
+        }
+
     });
 };

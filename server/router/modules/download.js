@@ -24,26 +24,37 @@ module.exports = (router) =>
      * */
     router.post(prefix('/download'), async (ctx, next) =>
     {
-        const id = ctx.session.id;
-        const user = await asyncFunctions.getUserAsync(id);
-        if (Object.is(user, null))//如果用户不存在或cookie失效
+        try
         {
-            ctx.body = new response(false, '身份认证失效，请重新登录');
-        }
-        else
-        {
-            const {fileId} = ctx.request.body;
-            const file = await db.File.findById(fileId);
-            if (Object.is(file, null))
+            const id = ctx.session.id;
+            const user = await asyncFunctions.getUserAsync(id);
+            if (Object.is(user, null))//如果用户不存在或cookie失效
             {
-                ctx.body = new response(false, '文件不存在');
+                ctx.body = new response(false, '身份认证失效，请重新登录');
             }
             else
             {
-                const {file_name: fileName, upload_date: uploadDate} = file;
-                ctx.body = new response(true, '开始下载，稍安勿躁', {downloadLink: `https://pan.soulike.tech/download/${id}/${uploadDate}/${fileName}`});
+                const {fileId} = ctx.request.body;
+                const file = await db.File.findById(fileId);
+                if (Object.is(file, null))
+                {
+                    ctx.body = new response(false, '文件不存在');
+                }
+                else
+                {
+                    const {file_name: fileName, upload_date: uploadDate} = file;
+                    ctx.body = new response(true, '开始下载，稍安勿躁', {downloadLink: `https://pan.soulike.tech/download/${id}/${uploadDate}/${fileName}`});
+                }
             }
         }
-        await next();
+        catch (e)
+        {
+            log(`Error when responding download link.\n${e.toString()}`);
+            ctx.body = new response(false, config.RESPONSE_MSG.INTERNAL_SERVER_ERROR);
+        }
+        finally
+        {
+            await next();
+        }
     });
 };
