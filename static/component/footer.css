@@ -1,27 +1,31 @@
 /*
 <footer>
     <div id="footerLinksWrapper">
-        <a href="https://github.com/Soulike/hash-generation" class="footerLink" target="_blank">Github 仓库</a>
-        <a href="#" target="_blank">关于本站</a></div>
+        <a href="https://github.com/Soulike/" class="footerLink" target="_blank">Github 仓库</a>
+        <a href="https://soulike.tech/about.html" target="_blank">关于本站</a></div>
     <div id="thanksWrapper">本网站使用图片资源均来自网络，如有侵权请联系删除。</div>
 </footer>
 */
 
-footer {
+footer
+{
     padding: 4rem 4rem;
     margin-top: 5rem;
     background-color: #333;
     width: 100%;
 }
 
-#footerLinksWrapper {
+#footerLinksWrapper
+{
     margin-bottom: 1rem;
 }
 
-.footerLink {
+.footerLink
+{
     margin-right: 1.5rem;
 }
 
-#thanksWrapper {
+#thanksWrapper
+{
     color: #AAA;
 }

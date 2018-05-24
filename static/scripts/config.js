@@ -1,11 +1,1 @@
-'use strict';
-const REGEXP = {
-    EMAIL: /^[0-9A-z]+@([0-9A-z]+\.)+[0-9A-z]+$/,
-    URL:/^https?:\/\/([A-z0-9\-]+\.)*[A-z0-9\-]+\.[A-z0-9]+(\/.+)+$/
-};
-
-const [DOMAIN, PORT] = ['pan.soulike.tech', 80];
-
-const MSG = {
-    ERROR: '网络异常，请重试'
-};
+'use strict';var REGEXP={EMAIL:/^[0-9A-z]+@([0-9A-z]+\.)+[0-9A-z]+$/,URL:/^https?:\/\/([A-z0-9\-]+\.)*[A-z0-9\-]+\.[A-z0-9]+(\/.+)+$/},DOMAIN='pan.soulike.tech',PORT=80,MSG={ERROR:'\u7F51\u7EDC\u5F02\u5E38\uFF0C\u8BF7\u91CD\u8BD5'};
