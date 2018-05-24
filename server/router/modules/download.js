@@ -67,7 +67,6 @@ module.exports = (router) =>
         try
         {
             const {fileId} = ctx.request.query;
-            console.log(ctx.request.query);
             const id = ctx.session.id;
             const user = await asyncFunctions.getUserAsync(id);
             ctx.response.set('Content-Type', 'text/plain');
