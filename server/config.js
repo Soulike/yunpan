@@ -1,5 +1,5 @@
 'use strict';
-const FILE_STORAGE_PATH = '/home/soulike/static/';
+const os = require('os');
 
 const REGEXP = {
     EMAIL: /^[0-9A-z]+@([0-9A-z]+\.)+[0-9A-z]+$/,
@@ -25,7 +25,7 @@ const SESSION_CONFIG = {
 
 const PORT = 8002;
 
-const PATH_BASE = '/home/soulike/servers/yunpan/static/files';
+const PATH_BASE = `${os.homedir()}/panStorage`;
 const UPLOAD_TEMP_PATH = `${PATH_BASE}/uploadTemp`;
 
 const RESPONSE_MSG = {
@@ -43,7 +43,6 @@ class response
 }
 
 module.exports = {
-    FILE_STORAGE_PATH,
     REGEXP,
     SESSION_CONFIG,
     PORT,
