@@ -216,10 +216,7 @@ $(() =>
         if (!Object.is($(e.target).find('form')[0], undefined))
         {
             $(e.target).find('form')[0].reset();
-            if ($(e.target).find('form') === $uploadControl)
-            {
-                $uploadProgressBar.css('width', '0' + '%');
-            }
+            $uploadProgressBar.css('width', '0' + '%');
         }
     });
 });
