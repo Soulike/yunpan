@@ -41,6 +41,7 @@ module.exports = (router) =>
                 else
                 {
                     const {file_name: fileName, upload_date: dayString} = file;
+                    ctx.response.set('Content-Type','application/octet-stream');
                     await send(ctx, `${id}/${dayString}/${fileName}`, {root: `${config.PATH_BASE}/`});
                 }
             }
