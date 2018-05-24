@@ -80,7 +80,7 @@ module.exports = (router) =>
             }
             else
             {
-                const file = db.File.findById(fileId);
+                const file = await db.File.findById(fileId);
                 if (Object.is(fileId, null))
                 {
                     ctx.body = '文件不存在';
@@ -88,7 +88,6 @@ module.exports = (router) =>
                 else
                 {
                     const {file_name: fileName, upload_date: dayString} = file;
-                    console.log(file);
                     ctx.response.set('Content-Type', 'application/octet-stream');
                     await send(ctx, `${id}/${dayString}/${fileName}`, {root: `${config.PATH_BASE}/`});
                 }
