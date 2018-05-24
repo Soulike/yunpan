@@ -242,32 +242,26 @@ async function readDirAsync(path)
 // 删除指定文件夹，不管是否为空
 async function removeFolderAsync(path)
 {
-    if (path[path.length - 1] === '/')//删除末尾的/
-    {
-        path = path.slice(0, -1);
-    }
-    return new Promise((async (resolve, reject) =>
-    {
-        const folderFilesArr = await readDirAsync(path)
-            .catch((err) =>
-            {
-                reject(err);
-            });
-        for (const fileName of folderFilesArr)
+        if (path[path.length - 1] === '/')//删除末尾的/
         {
-            await unlinkAsync(`${path}/${fileName}`)
-                .catch((err) =>
-                {
-                    reject(err);
-                });
+            path = path.slice(0, -1);
         }
-        await rmdirAsync(path)
-            .catch((err) =>
+        return new Promise((async (resolve, reject) =>
+        {
+            try
             {
-                reject(err);
-            });
-        resolve();
-    }));
+                const folderFilesArr = await readDirAsync(path);
+                for (const fileName of folderFilesArr)
+                {
+                    await unlinkAsync(`${path}/${fileName}`);
+                }
+                await rmdirAsync(path);
+                resolve();
+            }catch (e)
+            {
+                reject(e);
+            }
+        }));
 }
 
 module.exports = {
