@@ -42,7 +42,7 @@ module.exports = (router) =>
                 }
                 else
                 {
-                    ctx.body = new response(true, '开始下载，稍安勿躁', {downloadLink: `https://pan.soulike.tech${prefix('/downloadFile')}?fileId=${id}`});
+                    ctx.body = new response(true, '开始下载，稍安勿躁', {downloadLink: `https://pan.soulike.tech${prefix('/downloadFile')}?fileId=${fileId}`});
                 }
             }
         }
