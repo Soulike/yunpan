@@ -41,7 +41,7 @@ module.exports = (router) =>
                     const {file_name: fileName, upload_date: dayString} = file;
                     await asyncFunctions.unlinkAsync(`${config.PATH_BASE}/${id}/${dayString}/${fileName}`);
                     await file.destroy();
-                    ctx.body = new response(true, `文件${fileName}删除成功`);
+                    ctx.body = new response(true, `文件 ${fileName} 删除成功`);
                     const folderFileArr = await asyncFunctions.readDirAsync(`${config.PATH_BASE}/${id}/${dayString}/`);
                     if (folderFileArr.length === 0)
                     {
