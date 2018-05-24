@@ -3,6 +3,7 @@ const db = require('../../database');
 const config = require('../../config');
 const {log} = require('../../functions/log');
 const asyncFunctions = require('../../functions/asyncFunctions');
+const send = require('koa-send');
 const {response} = config;
 
 const prefix = (router) =>
@@ -69,6 +70,7 @@ module.exports = (router) =>
             console.log(ctx.request.query);
             const id = ctx.session.id;
             const user = await asyncFunctions.getUserAsync(id);
+            ctx.response.set('Content-Type', 'text/plain');
             if (Object.is(user, null))//如果用户不存在或cookie失效
             {
                 ctx.body = '身份认证失效，请重新登录';
