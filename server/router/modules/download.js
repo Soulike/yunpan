@@ -95,6 +95,7 @@ module.exports = (router) =>
         catch (e)
         {
             log(`Error when returning download link.\n${e.toString()}`);
+            ctx.response.set('Content-Disposition', `inline`);
             ctx.body = config.RESPONSE_MSG.INTERNAL_SERVER_ERROR;
         }
         finally
