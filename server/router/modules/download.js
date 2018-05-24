@@ -42,7 +42,7 @@ module.exports = (router) =>
                 }
                 else
                 {
-                    ctx.body = new response(true, '开始下载，稍安勿躁', {downloadLink: `https://pan.soulike.tech/download?fileId=${id}`});
+                    ctx.body = new response(true, '开始下载，稍安勿躁', {downloadLink: `https://pan.soulike.tech${prefix('downloadFile')}?fileId=${id}`});
                 }
             }
         }
@@ -61,7 +61,7 @@ module.exports = (router) =>
      * 格式: /download?fileId=xxx
      * 返回文件本身
      * */
-    router.get(prefix('/download'), async (ctx, next) =>
+    router.get(prefix('/downloadFile'), async (ctx, next) =>
     {
         try
         {
