@@ -74,6 +74,7 @@ function AJAX(suffix, data, successFunction, errorFunction, async = true)
             error: errorFunction
         });
 }
+
 function hideModal(selector)
 {
     $(selector).modal('hide');
@@ -90,4 +91,17 @@ function prependZero(num)
 {
     num = parseInt(num);
     return num < 10 ? '0' + num.toString() : num.toString();
+}
+
+//创建一个隐形表单下载文件
+function download(fileUrl)
+{
+    const $form = $(`<form>`);
+    const $body = $('body');
+    $form.attr('style','display: none;');
+    $form.attr('method','get');
+    $form.attr('action',fileUrl);
+    $body.append($form);
+    $form.submit();
+    $form.remove();
 }

@@ -15,5 +15,8 @@
     <orderEntry type="library" name="@types/bootstrap" level="application" />
     <orderEntry type="library" name="@types/jquery" level="application" />
     <orderEntry type="library" name="@types/koa-bodyparser" level="application" />
+    <orderEntry type="library" name="@types/jssha" level="application" />
+    <orderEntry type="library" name="@types/koa-session" level="application" />
+    <orderEntry type="library" name="@types/koa-multer" level="application" />
   </component>
 </module>

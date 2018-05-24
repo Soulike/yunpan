@@ -13,5 +13,6 @@ const router = new Router();
 require('./modules/user')(router);
 require('./modules/offlineDownload')(router);
 require('./modules/upload')(router);
+require('./modules/download')(router);
 
 module.exports = router;

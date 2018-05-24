@@ -214,3 +214,43 @@ $(() =>
         $(e.target).find('form')[0].reset();
     });
 });
+
+/*下载文件*/
+$(() =>
+{
+    const $downloadBtn = $('#downloadBtn');
+
+    $downloadBtn.click((e) =>
+    {
+        e.preventDefault();
+        const $selected = $('input[type=radio]:checked');
+        if ($selected.length === 0)
+        {
+            showAlert('请选择要下载的文件');
+        }
+        else if ($selected.length > 1)
+        {
+            showAlert('你怎么选中多个文件的，作弊了吧');
+        }
+        else
+        {
+            const fileId = $selected.attr('data-fileid');
+            AJAX('/download', {fileId: fileId},
+                (res) =>
+                {
+                    const {status, msg, data} = res;
+                    showAlert(msg, status);
+                    if (status)
+                    {
+                        const {downloadLink} = data;
+                        download(downloadLink);
+                    }
+                },
+                (err) =>
+                {
+                    showAlert(MSG.ERROR);
+                    console.log(err);
+                });
+        }
+    });
+});
