@@ -29,13 +29,13 @@ async function downloadAsync(fileUrl, localFolder)
             const urlObj = new URL(fileUrl);
             const filePath = urlObj.pathname;
             let fileName = path.basename(filePath);//获取文件名
-            await asyncFunction.createFolder(localFolder);
-            if (await asyncFunction.isExistAsync(`${localFolder}/${fileName}`))//如果文件已经存在，则从(2)开始尝试
+            await createFolder(localFolder);
+            if (await isExistAsync(`${localFolder}/${fileName}`))//如果文件已经存在，则从(2)开始尝试
             {
                 const {ext, name} = path.parse(fileName);
                 for (let i = 2; ; i++)
                 {
-                    if (!(await asyncFunction.isExistAsync(`${localFolder}/${name}(${i})${ext}`)))
+                    if (!(await isExistAsync(`${localFolder}/${name}(${i})${ext}`)))
                     {
                         fileName = `${name}(${i})${ext}`;
                         break;
