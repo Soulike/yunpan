@@ -96,10 +96,12 @@ function prependZero(num)
 //创建一个隐形表单下载文件
 function download(fileUrl)
 {
-    const $a = $(`<a></a>`);
+    const $a = $(`<a><span></span></a>`);
+    const $span = $a.children('span');
     const $body = $('body');
+    $a.css('display', 'none');
     $a.attr('href', fileUrl);
     $body.append($a);
-    $a.click();
+    $span.click();
     $a.remove();
 }
