@@ -40,7 +40,7 @@ module.exports = (router) =>
             }
             else
             {
-                const {id, file_name: fileName, upload_date: uploadDate} = file;
+                const {file_name: fileName, upload_date: uploadDate} = file;
                 ctx.body = new response(true, '开始下载，稍安勿躁', {downloadLink: `https://pan.soulike.tech/download/${id}/${uploadDate}/${fileName}`});
             }
         }
