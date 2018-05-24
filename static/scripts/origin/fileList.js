@@ -243,11 +243,6 @@ $(() =>
                 {
                     const {status, msg, data} = res;
                     showAlert(msg, status);
-                    if (status)
-                    {
-                        const {downloadLink} = data;
-                        download(downloadLink);
-                    }
                 },
                 (err) =>
                 {

@@ -1,4 +1,5 @@
 'use strict';
+const send = require('koa-send');
 const db = require('../../database');
 const config = require('../../config');
 const {log} = require('../../functions/log');
@@ -17,10 +18,7 @@ module.exports = (router) =>
      * {
      *     fileId:dawda
      * }
-     * 回复信息
-     * {
-     *     downloadLink: https://pan.soulike.tech/download/${id}/${uploadDate}/${fileName}
-     * }
+     * 回复一个文件
      * */
     router.post(prefix('/download'), async (ctx, next) =>
     {
@@ -42,8 +40,9 @@ module.exports = (router) =>
                 }
                 else
                 {
-                    const {file_name: fileName, upload_date: uploadDate} = file;
-                    ctx.body = new response(true, '开始下载，稍安勿躁', {downloadLink: `https://pan.soulike.tech/download/${id}/${uploadDate}/${fileName}`});
+                    const {file_name: fileName, upload_date: dayString} = file;
+                    ctx.body = new response(true, '开始下载，稍安勿躁');
+                    await send(ctx, `${config.PATH_BASE}/${id}/${dayString}/${fileName}`);
                 }
             }
         }
