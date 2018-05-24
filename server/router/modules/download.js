@@ -42,7 +42,7 @@ module.exports = (router) =>
                 {
                     const {file_name: fileName, upload_date: dayString} = file;
                     ctx.body = new response(true, '开始下载，稍安勿躁');
-                    await send(ctx, `${config.PATH_BASE}/${id}/${dayString}/${fileName}`);
+                    await send(ctx, `${id}/${dayString}/${fileName}`, {root: `${config.PATH_BASE}/`});
                 }
             }
         }
