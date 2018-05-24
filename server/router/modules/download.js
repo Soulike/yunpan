@@ -1,5 +1,4 @@
 'use strict';
-const send = require('koa-send');
 const db = require('../../database');
 const config = require('../../config');
 const {log} = require('../../functions/log');
@@ -8,19 +7,22 @@ const {response} = config;
 
 const prefix = (router) =>
 {
-    return `/server${router}`;
+    return `/server/download${router}`;
 };
 
 module.exports = (router) =>
 {
-    /*向前端返回真实下载地址
+    /* 向前端返回下载地址
      * 前端提交信息
      * {
      *     fileId:dawda
      * }
-     * 回复一个文件
+     * 回复信息
+     * {
+     *     downloadLink: https://pan.soulike.tech/download/${id}/${uploadDate}/${fileName}
+     * }
      * */
-    router.post(prefix('/download'), async (ctx, next) =>
+    router.post(prefix('/getDownloadLink'), async (ctx, next) =>
     {
         try
         {
@@ -40,9 +42,7 @@ module.exports = (router) =>
                 }
                 else
                 {
-                    const {file_name: fileName, upload_date: dayString} = file;
-                    ctx.response.set('Content-Type','application/octet-stream');
-                    await send(ctx, `${id}/${dayString}/${fileName}`, {root: `${config.PATH_BASE}/`});
+                    ctx.body = new response(true, '开始下载，稍安勿躁', {downloadLink: `https://pan.soulike.tech/download?fileId=${id}`});
                 }
             }
         }
@@ -56,4 +56,42 @@ module.exports = (router) =>
             await next();
         }
     });
+
+    /*发送伪下载链接
+     * 格式: /download?fileId=xxx
+     * 返回文件本身
+     * */
+    router.get(prefix('/download'), async (ctx, next) =>
+    {
+        try
+        {
+            const {fileId} = ctx.request.query();
+            const id = ctx.session.id;
+            const user = await asyncFunctions.getUserAsync(id);
+            if (Object.is(user, null))//如果用户不存在或cookie失效
+            {
+                ctx.body = '身份认证失效，请重新登录';
+            }
+            else if (Object.is(fileId, undefined))
+            {
+                ctx.body = '下载参数错误';
+            }
+            else
+            {
+                const {file_name: fileName, upload_date: dayString} = file;
+                ctx.response.set('Content-Type', 'application/octet-stream');
+                await send(ctx, `${id}/${dayString}/${fileName}`, {root: `${config.PATH_BASE}/`});
+            }
+        }
+        catch (e)
+        {
+            log(`Error when returning download link.\n${e.toString()}`);
+        }
+        finally
+        {
+            await next();
+        }
+
+    });
+
 };

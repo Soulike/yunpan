@@ -238,11 +238,12 @@ $(() =>
         else
         {
             const fileId = $selected.attr('data-fileid');
-            AJAX('/download', {fileId: fileId},
+            AJAX('/download/getDownloadLink', {fileId: fileId},
                 (res) =>
                 {
                     const {status, msg, data} = res;
                     showAlert(msg, status);
+                    download(data.downloadLink);
                 },
                 (err) =>
                 {
