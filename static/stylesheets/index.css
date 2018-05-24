@@ -1,16 +1,25 @@
 @import "base.css";
 
-div#loginFormDiv{
+div#loginFormDiv
+{
     position: absolute;
     left: 50%;
     top: 50%;
-    transform: translate(-50%,-50%);
+    transform: translate(-50%, -50%);
 }
 
-input{
+input
+{
     margin: 1.5rem 0;
 }
 
-button#loginBtn{
+button#loginBtn
+{
     margin-top: 1.5rem;
+}
+
+a#visitorLoginLink
+{
+    float: right;
+    margin-top: 0.5rem;
 }

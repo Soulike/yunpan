@@ -30,7 +30,11 @@ module.exports = (router) =>
             const user = await asyncFunctions.getUserAsync(ctx.session.id);
             if (Object.is(user, null))//如果用户不存在或cookie失效
             {
-                ctx.body = new response(false, '身份认证失效，请重新登录');
+                ctx.body = new response(false, config.RESPONSE_MSG.INVALID_SESSION);
+            }
+            else if (parseInt(id) === 0)
+            {
+                ctx.body = new response(false, config.RESPONSE_MSG.PERMISSION_DENIED);
             }
             else//用户身份确认，发送head请求试探目标链接是否有效
             {

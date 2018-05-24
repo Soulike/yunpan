@@ -77,6 +77,14 @@ module.exports = (router) =>
 
     });
 
+    /*游客登陆，标记id为0*/
+    router.get(prefix('/visitorLogin'), async (ctx, next) =>
+    {
+        ctx.session.id = 0;
+        ctx.redirect('fileList.html');
+        await next();
+    });
+
     /*获取用户的文件列表
      * 前端不需要发送任何数据
      * 后端发送数据格式
@@ -97,7 +105,7 @@ module.exports = (router) =>
             const user = await getUserAsync(id);
             if (Object.is(user, null))
             {
-                ctx.body = new response(false, '身份认证失效，请重新登录');
+                ctx.body = new response(false, config.RESPONSE_MSG.INVALID_SESSION);
             }
             else
             {

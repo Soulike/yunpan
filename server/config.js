@@ -29,7 +29,9 @@ const PATH_BASE = `${os.homedir()}/panStorage`;
 const UPLOAD_TEMP_PATH = PATH_BASE;
 
 const RESPONSE_MSG = {
-    INTERNAL_SERVER_ERROR: '服务器错误'
+    INTERNAL_SERVER_ERROR: '服务器错误',
+    PERMISSION_DENIED: '你没有执行此操作的权限',
+    INVALID_SESSION: '身份认证失效，请重新登录'
 };
 
 class response
