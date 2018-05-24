@@ -18,5 +18,6 @@
     <orderEntry type="library" name="@types/koa-session" level="application" />
     <orderEntry type="library" name="@types/koa-multer" level="application" />
     <orderEntry type="library" name="@types/koa-bodyparser" level="application" />
+    <orderEntry type="library" name="@types/koa-send" level="application" />
   </component>
 </module>
