@@ -59,7 +59,7 @@ module.exports = (router) =>
                     else
                     {
                         ctx.session.id = user.id;
-                        log(`${email} login succeed`);
+                        log(`${email} login succeeded`);
                         ctx.body = new response(true, '登陆成功');
                     }
                 }
