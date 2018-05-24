@@ -292,6 +292,8 @@ $(() =>
                     {
                         const {status, msg, data} = res;
                         showAlert(msg, status);
+                        $deleteModal.modal('hide');
+                        refreshFileList();
                     },
                     (err) =>
                     {
