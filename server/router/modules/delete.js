@@ -10,19 +10,15 @@ const prefix = (router) =>
     return `/server${router}`;
 };
 
+/*删除文件
+ * 前端提交信息
+ * {
+ *     fileId:dadwa
+ * }
+ */
 module.exports = (router) =>
 {
-    /*向前端返回真实下载地址
-     * 前端提交信息
-     * {
-     *     fileId:dawda
-     * }
-     * 回复信息
-     * {
-     *     downloadLink: https://pan.soulike.tech/download/${id}/${uploadDate}/${fileName}
-     * }
-     * */
-    router.post(prefix('/download'), async (ctx, next) =>
+    router.post(prefix('/delete'), async (ctx, next) =>
     {
         const id = ctx.session.id;
         const user = await asyncFunctions.getUserAsync(id);
@@ -40,8 +36,14 @@ module.exports = (router) =>
             }
             else
             {
-                const {file_name: fileName, upload_date: uploadDate} = file;
-                ctx.body = new response(true, '开始下载，稍安勿躁', {downloadLink: `https://pan.soulike.tech/download/${id}/${uploadDate}/${fileName}`});
+                const {file_name: fileName, upload_date: dayString} = file;
+                await asyncFunctions.unlinkAsync(`${config.PATH_BASE}/${id}/${dayString}/${fileName}`)
+                    .catch((err) =>
+                    {
+                        log(`Error when deleting file.\n${err.toString()}`);
+                    });
+                await file.destroy();
+                ctx.body = new response(true, `文件${fileName}删除成功`);
             }
         }
         await next();

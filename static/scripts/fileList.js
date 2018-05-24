@@ -67,7 +67,7 @@ function refreshFileList()
     {
         return $(`<tr class="fileListRow">
                     <td><input type="radio" data-fileID="${fileId}"></td>
-                    <td>${fileName}</td>
+                    <td class="fileName">${fileName}</td>
                     <td>${(fileSize / 1024 / 1024).toFixed(2)} M</td>
                     <td>${parseTimeString(createdAt)}</td>
                 </tr>`);
@@ -211,7 +211,10 @@ $(() =>
     const $modal = $('.modal');
     $modal.on('hidden.bs.modal', (e) =>
     {
-        $(e.target).find('form')[0].reset();
+        if (!Object.is($(e.target).find('form')[0], undefined))
+        {
+            $(e.target).find('form')[0].reset();
+        }
     });
 });
 
@@ -251,6 +254,51 @@ $(() =>
                     showAlert(MSG.ERROR);
                     console.log(err);
                 });
+        }
+    });
+});
+
+/*删除文件*/
+$(() =>
+{
+    const $deleteBtn = $('#deleteBtn');
+    const $deleteModal = $('#deleteModal');
+    const $deleteModalBtn = $('#deleteModalBtn');
+    const $deleteFileName = $('#deleteFileName');
+
+    $deleteBtn.click((e) =>
+    {
+        e.preventDefault();
+        const $selected = $('input[type=radio]:checked');
+        if ($selected.length === 0)
+        {
+            showAlert('请选择要删除的文件');
+        }
+        else if ($selected.length > 1)
+        {
+            showAlert('你怎么选中多个文件的，作弊了吧');
+        }
+        else
+        {
+            const $fileName = $selected.parent().siblings('.fileName');
+            $deleteFileName.text($fileName.text());
+            $deleteModal.modal('show');
+            $deleteModalBtn.click((e) =>
+            {
+                e.preventDefault();
+                const fileId = $selected.attr('data-fileid');
+                AJAX('/delete', {fileId: fileId},
+                    (res) =>
+                    {
+                        const {status, msg, data} = res;
+                        showAlert(msg, status);
+                    },
+                    (err) =>
+                    {
+                        showAlert(MSG.ERROR);
+                        console.log(err);
+                    });
+            });
         }
     });
 });
