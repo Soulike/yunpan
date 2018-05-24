@@ -24,7 +24,6 @@ module.exports = (router) =>
      * */
     router.post(prefix('/downloadLink'), async (ctx, next) =>
     {
-        let hasResponded = false;
         try
         {
             const {link, isPublic} = ctx.request.body;
@@ -47,24 +46,25 @@ module.exports = (router) =>
                 }
                 else
                 {
-                    ctx.body = new response(true, '文件已开始下载，请稍后再查看');
-                    hasResponded = true;
-                    await next();
-
                     const id = user.id;
                     const date = new Date();
                     const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
                     const dayString = `${year}.${month}.${day}`;
-                    const fileName = await asyncFunctions.downloadAsync(link, `${config.PATH_BASE}/${id}/${dayString}/`);
-                    const fileSize =
-                        await asyncFunctions.getFileSizeAsync(`${config.PATH_BASE}/${id}/${dayString}/${fileName}`);
-                    await db.File.create({
-                        file_name: fileName,
-                        upload_date: dayString,
-                        file_size: parseInt(fileSize),
-                        is_public: !!isPublic,
-                        owner_id: parseInt(id)
-                    });
+
+                    asyncFunctions.downloadAsync(link, `${config.PATH_BASE}/${id}/${dayString}/`)
+                        .then(async (fileName) =>
+                        {
+                            const fileSize =
+                                await asyncFunctions.getFileSizeAsync(`${config.PATH_BASE}/${id}/${dayString}/${fileName}`);
+                            await db.File.create({
+                                file_name: fileName,
+                                upload_date: dayString,
+                                file_size: parseInt(fileSize),
+                                is_public: !!isPublic,
+                                owner_id: parseInt(id)
+                            });
+                        });
+                    ctx.body = new response(true, '文件已开始下载，请稍后再查看');
                 }
             }
         }
@@ -75,10 +75,7 @@ module.exports = (router) =>
         }
         finally
         {
-            if (hasResponded === false)
-            {
-                await next();
-            }
+            await next();
         }
     });
 };
