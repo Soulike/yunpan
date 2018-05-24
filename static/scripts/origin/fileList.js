@@ -149,7 +149,7 @@ $(() =>
     $uploadModalBtn.click((e) =>
     {
         e.preventDefault();
-
+        $uploadControl.prop('disabled', true);//上传期间，表单关闭
         let formData = new FormData;
         for (let i = 0; i < $uploadControl[0].files.length; i++)
         {
@@ -171,11 +171,13 @@ $(() =>
                 {
                     const {status, msg} = res;
                     showAlert(msg, status);
+                    $uploadControl.prop('disabled', false);
                     refreshFileList();
                 },
                 error: (err) =>
                 {
                     showAlert(MSG.ERROR);
+                    $uploadControl.prop('disabled', false);
                     console.log(err);
                 },
                 xhr: function ()
@@ -201,19 +203,23 @@ $(() =>
                 }
             });
     });
-
-    /**/
 });
 
 /*Modal隐藏时reset所有表单*/
 $(() =>
 {
     const $modal = $('.modal');
+    const $uploadProgressBar = $('#uploadProgressBar');
+    const $uploadControl = $('#uploadControl');
     $modal.on('hidden.bs.modal', (e) =>
     {
         if (!Object.is($(e.target).find('form')[0], undefined))
         {
             $(e.target).find('form')[0].reset();
+            if ($(e.target).find('form') === $uploadControl)
+            {
+                $uploadProgressBar.css('width', '0' + '%');
+            }
         }
     });
 });
