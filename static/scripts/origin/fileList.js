@@ -166,7 +166,7 @@ $(() =>
                 data: formData,
                 processData: false,
                 contentType: false,
-                async: true,
+                async: false,
                 success: (res) =>
                 {
                     const {status, msg} = res;
@@ -210,7 +210,6 @@ $(() =>
 {
     const $modal = $('.modal');
     const $uploadProgressBar = $('#uploadProgressBar');
-    const $uploadControl = $('#uploadControl');
     $modal.on('hidden.bs.modal', (e) =>
     {
         if (!Object.is($(e.target).find('form')[0], undefined))
