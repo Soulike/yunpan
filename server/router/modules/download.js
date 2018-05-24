@@ -66,6 +66,7 @@ module.exports = (router) =>
         try
         {
             const {fileId} = ctx.request.query;
+            console.log(ctx.request.query);
             const id = ctx.session.id;
             const user = await asyncFunctions.getUserAsync(id);
             if (Object.is(user, null))//如果用户不存在或cookie失效
