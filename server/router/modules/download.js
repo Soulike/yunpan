@@ -65,7 +65,7 @@ module.exports = (router) =>
     {
         try
         {
-            const {fileId} = ctx.request.query();
+            const {fileId} = ctx.request.query;
             const id = ctx.session.id;
             const user = await asyncFunctions.getUserAsync(id);
             if (Object.is(user, null))//如果用户不存在或cookie失效
@@ -94,6 +94,7 @@ module.exports = (router) =>
         catch (e)
         {
             log(`Error when returning download link.\n${e.toString()}`);
+            ctx.body = config.RESPONSE_MSG.INTERNAL_SERVER_ERROR;
         }
         finally
         {
