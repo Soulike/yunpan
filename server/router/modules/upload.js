@@ -37,7 +37,6 @@ module.exports = (router) =>
                 const dayString = `${year}.${month}.${day}`;
 
                 let fileName = fileInfo.originalname;
-                await asyncFunctions.createFolder(`${config.UPLOAD_TEMP_PATH}/`);//创建上传临时目录
                 await asyncFunctions.createFolder(`${config.PATH_BASE}/${id}/${dayString}/`);
                 if (await asyncFunctions.isExistAsync(`${config.PATH_BASE}/${id}/${dayString}/${fileName}`))//如果文件已经存在，则从(2)开始尝试
                 {
@@ -61,15 +60,7 @@ module.exports = (router) =>
                 });
                 ctx.body = new response(true, '上传成功');
 
-                try
-                {
-                    await asyncFunctions.renameAsync(`${config.UPLOAD_TEMP_PATH}/${fileInfo.filename}`, `${config.PATH_BASE}/${id}/${dayString}/${fileName}`);
-                    await asyncFunctions.removeFolderAsync(`${config.UPLOAD_TEMP_PATH}/`);
-                }
-                catch (e)
-                {
-                    log(`Error when removing temp folder.\n${e.toString()}`);
-                }
+                await asyncFunctions.renameAsync(`${config.UPLOAD_TEMP_PATH}/${fileInfo.filename}`, `${config.PATH_BASE}/${id}/${dayString}/${fileName}`);
             }
         }
         catch (e)

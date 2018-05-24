@@ -26,7 +26,7 @@ const SESSION_CONFIG = {
 const PORT = 8002;
 
 const PATH_BASE = `${os.homedir()}/panStorage`;
-const UPLOAD_TEMP_PATH = `${PATH_BASE}/uploadTemp`;
+const UPLOAD_TEMP_PATH = PATH_BASE;
 
 const RESPONSE_MSG = {
     INTERNAL_SERVER_ERROR: '服务器错误'
