@@ -67,12 +67,11 @@ module.exports = (router) =>
                     log(`Error when uploading.\n${err.toString()}`);
                 });
 
-            //TODO: 异步删除非空文件夹
-            /*await asyncFunctions.rmdirAsync(`${config.UPLOAD_TEMP_PATH}/`)
-             .catch((err) =>
-             {
-             log(`Error when deleting temp folder.\n${err.toString()}`);
-             });*/
+            await asyncFunctions.removeFolderAsync(`${config.UPLOAD_TEMP_PATH}/`)
+                .catch((err) =>
+                {
+                    log(`Error when removing temp folder.\n${err.toString()}`);
+                });
 
             ctx.body = new response(true, '上传成功');
 

@@ -127,10 +127,14 @@ async function rmdirAsync(path)
     {
         fs.rmdir(path, (err) =>
         {
-            if(err)
+            if (err)
+            {
                 reject(err);
+            }
             else
+            {
                 resolve();
+            }
         });
     }));
 }
@@ -141,11 +145,65 @@ async function unlinkAsync(path)
     {
         fs.unlink(path, (err) =>
         {
-            if(err)
+            if (err)
+            {
                 reject(err);
+            }
             else
+            {
                 resolve();
+            }
         });
+    }));
+}
+
+// fs.readdir的异步版本，读取文件夹下的所有文件名
+async function readDirAsync(path)
+{
+    return new Promise(((resolve, reject) =>
+    {
+        fs.readdir(path, (err, files) =>
+        {
+            if (err)
+            {
+                reject(err);
+            }
+            else
+            {
+                resolve(files);
+            }
+        });
+    }));
+}
+
+// 删除指定文件夹，不管是否为空
+async function removeFolderAsync(path)
+{
+    if (path[path.length - 1] === '/')//删除末尾的/
+    {
+        path = path.slice(0, -1);
+    }
+    return new Promise((async (resolve, reject) =>
+    {
+        const folderFilesArr = await readDirAsync(path)
+            .catch((err) =>
+            {
+                reject(err);
+            });
+        for (const fileName of folderFilesArr)
+        {
+            await unlinkAsync(`${path}/${fileName}`)
+                .catch((err) =>
+                {
+                    reject(err);
+                });
+        }
+        await rmdirAsync(path)
+            .catch((err) =>
+            {
+                reject(err);
+            });
+        resolve();
     }));
 }
 
@@ -155,6 +213,6 @@ module.exports = {
     isExistAsync,
     headAsync,
     renameAsync,
-    rmdirAsync,
-    unlinkAsync
+    unlinkAsync,
+    removeFolderAsync
 };
