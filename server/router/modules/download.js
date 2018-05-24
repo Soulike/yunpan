@@ -69,7 +69,6 @@ module.exports = (router) =>
             const {fileId} = ctx.request.query;
             const id = ctx.session.id;
             const user = await asyncFunctions.getUserAsync(id);
-            ctx.response.set('Content-Type', 'text/plain');
             if (Object.is(user, null))//如果用户不存在或cookie失效
             {
                 ctx.body = '身份认证失效，请重新登录';
@@ -88,7 +87,6 @@ module.exports = (router) =>
                 else
                 {
                     const {file_name: fileName, upload_date: dayString} = file;
-                    ctx.response.set('Content-Type', 'application/octet-stream');
                     await send(ctx, `${id}/${dayString}/${fileName}`, {root: `${config.PATH_BASE}/`});
                 }
             }
