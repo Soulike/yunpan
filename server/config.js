@@ -28,7 +28,7 @@ const PORT = 8002;
 const PATH = {
     SERVER_FILES_PATH: `${os.homedir()}/servers/yunpan`,
     PATH_BASE: `${os.homedir()}/panStorage`,
-    UPLOAD_TEMP_PATH: this.PATH_BASE
+    UPLOAD_TEMP_PATH: `${this.PATH_BASE}/uploadTemp`
 };
 
 const NAME = {

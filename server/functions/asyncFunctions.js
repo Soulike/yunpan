@@ -127,19 +127,22 @@ async function createFolder(path)
     let absolutePath = '/';
     return new Promise((async (resolve, reject) =>
     {
-        for (const folder of pathLevels)
+        try
         {
-            absolutePath = `${absolutePath}${folder}/`;
-            if (!(await isExistAsync(absolutePath)))//如果这个目录不存在，则创建它
+            for (const folder of pathLevels)
             {
-                await mkdirAsync(absolutePath)
-                    .catch((err) =>
-                    {
-                        reject(err);
-                    });
+                absolutePath = `${absolutePath}${folder}/`;
+                if (!(await isExistAsync(absolutePath)))//如果这个目录不存在，则创建它
+                {
+                    await mkdirAsync(absolutePath);
+                }
             }
+            resolve();
         }
-        resolve();
+        catch (e)
+        {
+            reject(e);
+        }
     }));
 
 }
