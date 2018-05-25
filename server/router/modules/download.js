@@ -90,7 +90,7 @@ module.exports = (router) =>
                 }
                 else if (parseInt(file.owner_id) !== parseInt(id) && file.is_public !== true)//这个文件并不属于这个用户且这个文件不是公开的
                 {
-                    ctx.body = new response(false, '你没有权限下载这个文件');
+                    ctx.body = '你没有权限下载这个文件';
                 }
                 else
                 {
