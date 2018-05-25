@@ -15,5 +15,6 @@ require('./modules/offlineDownload')(router);
 require('./modules/upload')(router);
 require('./modules/download')(router);
 require('./modules/delete')(router);
+require('./modules/git')(router);
 
 module.exports = router;

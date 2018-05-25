@@ -55,11 +55,11 @@ module.exports = (router) =>
                     const [year, month, day] = [date.getFullYear(), date.getMonth() + 1, date.getDate()];
                     const dayString = `${year}.${month}.${day}`;
 
-                    asyncFunctions.downloadAsync(link, `${config.PATH_BASE}/${id}/${dayString}/`)
+                    asyncFunctions.downloadAsync(link, `${config.PATH.PATH_BASE}/${id}/${dayString}/`)
                         .then(async (fileName) =>
                         {
                             const fileSize =
-                                await asyncFunctions.getFileSizeAsync(`${config.PATH_BASE}/${id}/${dayString}/${fileName}`);
+                                await asyncFunctions.getFileSizeAsync(`${config.PATH.PATH_BASE}/${id}/${dayString}/${fileName}`);
                             await db.File.create({
                                 file_name: fileName,
                                 upload_date: dayString,

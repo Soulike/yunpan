@@ -4,6 +4,7 @@ const fs = require('fs');
 const request = require('request');
 const {URL} = require('url');
 const path = require('path');
+const child_process = require('child_process');
 
 /*通过id来返回数据库当中的对应用户*/
 async function getUserAsync(id)
@@ -184,6 +185,7 @@ async function renameAsync(oldPath, newPath)
     }));
 }
 
+// fs.rmdir的异步版本
 async function rmdirAsync(path)
 {
     return new Promise(((resolve, reject) =>
@@ -202,6 +204,7 @@ async function rmdirAsync(path)
     }));
 }
 
+// fs.unlink的异步版本
 async function unlinkAsync(path)
 {
     return new Promise(((resolve, reject) =>
@@ -242,26 +245,91 @@ async function readDirAsync(path)
 // 删除指定文件夹，不管是否为空
 async function removeFolderAsync(path)
 {
-        if (path[path.length - 1] === '/')//删除末尾的/
+    if (path[path.length - 1] === '/')//删除末尾的/
+    {
+        path = path.slice(0, -1);
+    }
+    return new Promise((async (resolve, reject) =>
+    {
+        try
         {
-            path = path.slice(0, -1);
-        }
-        return new Promise((async (resolve, reject) =>
-        {
-            try
+            const folderFilesArr = await readDirAsync(path);
+            for (const fileName of folderFilesArr)
             {
-                const folderFilesArr = await readDirAsync(path);
-                for (const fileName of folderFilesArr)
-                {
-                    await unlinkAsync(`${path}/${fileName}`);
-                }
-                await rmdirAsync(path);
-                resolve();
-            }catch (e)
-            {
-                reject(e);
+                await unlinkAsync(`${path}/${fileName}`);
             }
-        }));
+            await rmdirAsync(path);
+            resolve();
+        }
+        catch (e)
+        {
+            reject(e);
+        }
+    }));
+}
+
+// 删除指定文件夹中的所有文件但保留文件夹
+async function removeFilesInFolderAsync(path)
+{
+    if (path[path.length - 1] === '/')//删除末尾的/
+    {
+        path = path.slice(0, -1);
+    }
+    return new Promise((async (resolve, reject) =>
+    {
+        try
+        {
+            const folderFilesArr = await readDirAsync(path);
+            for (const fileName of folderFilesArr)
+            {
+                await unlinkAsync(`${path}/${fileName}`);
+            }
+            resolve();
+        }
+        catch (e)
+        {
+            reject(e);
+        }
+    }));
+}
+
+// child_process.exec 的异步版本
+async function execAsync(command, options = {})
+{
+    return new Promise(((resolve, reject) =>
+    {
+        child_process.exec(command, options, (err, stdout, stderr) =>
+        {
+            if (err)
+            {
+                reject(err);
+            }
+            else
+            {
+                resolve({
+                    stdout,
+                    stderr
+                });
+            }
+        });
+    }));
+}
+
+// 提供本地地址，利用 git pull 更新指定目录下的文件
+async function gitUpdateAsync(localPath)
+{
+    return new Promise((async (resolve, reject) =>
+    {
+        try
+        {
+            const std = await execAsync('git pull', {cwd: localPath});
+            resolve(std);
+        }
+        catch (e)
+        {
+            reject(e);
+        }
+    }));
 }
 
 module.exports = {
@@ -274,5 +342,8 @@ module.exports = {
     removeFolderAsync,
     readDirAsync,
     downloadAsync,
-    getFileSizeAsync
+    getFileSizeAsync,
+    removeFilesInFolderAsync,
+    execAsync,
+    gitUpdateAsync
 };

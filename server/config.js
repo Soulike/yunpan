@@ -25,8 +25,15 @@ const SESSION_CONFIG = {
 
 const PORT = 8002;
 
-const PATH_BASE = `${os.homedir()}/panStorage`;
-const UPLOAD_TEMP_PATH = PATH_BASE;
+const PATH = {
+    SERVER_FILES_PATH: `${os.homedir()}/servers/yunpan`,
+    PATH_BASE: `${os.homedir()}/panStorage`,
+    UPLOAD_TEMP_PATH: this.PATH_BASE
+};
+
+const NAME = {
+    SUPERVISOR: 'pan'
+};
 
 const RESPONSE_MSG = {
     INTERNAL_SERVER_ERROR: '服务器错误',
@@ -48,8 +55,8 @@ module.exports = {
     REGEXP,
     SESSION_CONFIG,
     PORT,
-    PATH_BASE,
-    UPLOAD_TEMP_PATH,
+    PATH,
+    NAME,
     RESPONSE_MSG,
     response
 };

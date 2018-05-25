@@ -7,7 +7,7 @@ const {response} = config;
 const multer = require('koa-multer');
 
 const upload = multer({
-    dest: config.UPLOAD_TEMP_PATH
+    dest: config.PATH.UPLOAD_TEMP_PATH
 });
 const path = require('path');
 
@@ -41,13 +41,13 @@ module.exports = (router) =>
                 const dayString = `${year}.${month}.${day}`;
 
                 let fileName = fileInfo.originalname;
-                await asyncFunctions.createFolder(`${config.PATH_BASE}/${id}/${dayString}/`);
-                if (await asyncFunctions.isExistAsync(`${config.PATH_BASE}/${id}/${dayString}/${fileName}`))//如果文件已经存在，则从(2)开始尝试
+                await asyncFunctions.createFolder(`${config.PATH.PATH_BASE}/${id}/${dayString}/`);
+                if (await asyncFunctions.isExistAsync(`${config.PATH.PATH_BASE}/${id}/${dayString}/${fileName}`))//如果文件已经存在，则从(2)开始尝试
                 {
                     const {ext, name} = path.parse(fileName);
                     for (let i = 2; ; i++)
                     {
-                        if (!(await asyncFunctions.isExistAsync(`${config.PATH_BASE}/${id}/${dayString}/${name}(${i})${ext}`)))
+                        if (!(await asyncFunctions.isExistAsync(`${config.PATH.PATH_BASE}/${id}/${dayString}/${name}(${i})${ext}`)))
                         {
                             fileName = `${name}(${i})${ext}`;
                             break;
@@ -64,7 +64,7 @@ module.exports = (router) =>
                 });
                 ctx.body = new response(true, '上传成功');
 
-                await asyncFunctions.renameAsync(`${config.UPLOAD_TEMP_PATH}/${fileInfo.filename}`, `${config.PATH_BASE}/${id}/${dayString}/${fileName}`);
+                await asyncFunctions.renameAsync(`${config.PATH.UPLOAD_TEMP_PATH}/${fileInfo.filename}`, `${config.PATH.PATH_BASE}/${id}/${dayString}/${fileName}`);
             }
         }
         catch (e)
