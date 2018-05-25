@@ -32,6 +32,7 @@ module.exports = (router) =>
         }
         finally
         {
+            ctx.body = 'Update message received';
             await next();
         }
     });
