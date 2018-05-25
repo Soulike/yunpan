@@ -13,18 +13,22 @@ module.exports = (router) =>
     {
         try
         {
-            const {stdout: gitStdout, stderr: gitStderr} = await asyncFunctions.gitUpdateAsync(config.PATH.SERVER_FILES_PATH);
-            log(`Server files update detected.\n${gitStdout}`);
-            if (gitStderr)
-            {
-                log(`Error when updating through git.\n${gitStderr}`);
-            }
-            log(`Restarting server daemon.`);
-            const {stderr: execStderr} = await asyncFunctions.execAsync(`supervisorctl restart ${config.NAME.SUPERVISOR}`);
-            if (execStderr)
-            {
-                log(`Error when restarting server daemon.\n${execStderr}`);
-            }
+            asyncFunctions.gitUpdateAsync(config.PATH.SERVER_FILES_PATH)
+                .then(async (std) =>
+                {
+                    const {stdout,stderr} = std;
+                    log(`Server files update detected.\n${stdout}`);
+                    if (stderr)
+                    {
+                        log(`Error when updating through git.\n${stderr}`);
+                    }
+                    log(`Restarting server daemon.`);
+                    const {stderr: execStderr} = await asyncFunctions.execAsync(`supervisorctl restart ${config.NAME.SUPERVISOR}`);
+                    if (execStderr)
+                    {
+                        log(`Error when restarting server daemon.\n${execStderr}`);
+                    }
+                });
         }
         catch (e)
         {
