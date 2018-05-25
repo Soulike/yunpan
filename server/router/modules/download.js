@@ -41,6 +41,10 @@ module.exports = (router) =>
                 {
                     ctx.body = new response(false, '文件不存在');
                 }
+                else if (parseInt(file.owner_id) !== parseInt(id) && file.is_public !== true)//这个文件并不属于这个用户且这个文件不是公开的
+                {
+                    ctx.body = new response(false, '你没有权限下载这个文件');
+                }
                 else
                 {
                     ctx.body = new response(true, '开始下载，稍安勿躁', {downloadLink: `https://pan.soulike.tech${prefix('/downloadFile')}?fileId=${fileId}`});
@@ -83,6 +87,10 @@ module.exports = (router) =>
                 if (Object.is(fileId, null))
                 {
                     ctx.body = '文件不存在';
+                }
+                else if (parseInt(file.owner_id) !== parseInt(id) && file.is_public !== true)//这个文件并不属于这个用户且这个文件不是公开的
+                {
+                    ctx.body = new response(false, '你没有权限下载这个文件');
                 }
                 else
                 {
