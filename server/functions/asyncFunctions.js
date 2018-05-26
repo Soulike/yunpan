@@ -144,7 +144,6 @@ async function createFolder(path)
             reject(e);
         }
     }));
-
 }
 
 // request.head 的异步版本

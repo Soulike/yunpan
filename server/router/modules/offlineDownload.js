@@ -32,7 +32,7 @@ module.exports = (router) =>
             {
                 ctx.body = new response(false, config.RESPONSE_MSG.INVALID_SESSION);
             }
-            else if (parseInt(id) === 0)
+            else if (parseInt(user.id) === 0)
             {
                 ctx.body = new response(false, config.RESPONSE_MSG.PERMISSION_DENIED);
             }
