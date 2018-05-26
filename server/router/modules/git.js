@@ -23,7 +23,7 @@ module.exports = (router) =>
                         log(`Error when updating through git.\n${stderr}`);
                     }
 
-                    const {npmStdout, npmStderr} = await asyncFunctions.execAsync('npm install', {cwd: config.PATH.SERVER_FILES_PATH});
+                    const {stdout: npmStdout, stderr: npmStderr} = await asyncFunctions.execAsync('npm install', {cwd: config.PATH.SERVER_FILES_PATH});
                     log(`Server modules installing.\n${npmStdout}`);
                     if (npmStderr)
                     {
