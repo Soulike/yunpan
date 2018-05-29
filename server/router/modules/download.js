@@ -116,3 +116,5 @@ module.exports = (router) =>
     });
 
 };
+
+/*TODO：生成分享链接，可选择有效期*/
