@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/Soulike/yunpan#readme",
   "dependencies": {
+    "blueimp-md5": "^2.10.0",
     "jssha": "^2.3.1",
     "koa": "^2.5.0",
     "koa-bodyparser": "^4.2.0",
@@ -27,6 +28,7 @@
     "koa-session": "^5.8.1",
     "pg": "^7.4.3",
     "pg-hstore": "^2.3.2",
+    "redis": "^2.8.0",
     "request": "^2.85.0",
     "sequelize": "^4.37.8"
   }

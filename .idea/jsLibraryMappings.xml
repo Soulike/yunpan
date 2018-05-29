@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="PROJECT" libraries="{@types/koa, @types/koa-bodyparser, @types/koa-multer, @types/koa-router, @types/koa-send, @types/koa-session, @types/request, @types/sequelize}" />
+    <file url="PROJECT" libraries="{@types/koa, @types/koa-bodyparser, @types/koa-multer, @types/koa-router, @types/koa-send, @types/koa-session, @types/redis, @types/request, @types/sequelize}" />
     <includedPredefinedLibrary name="Node.js Core" />
   </component>
 </project>

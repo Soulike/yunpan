@@ -1,5 +1,6 @@
 'use strict';
 const db = require('../database');
+const client = require('../redis');
 const fs = require('fs');
 const request = require('request');
 const {URL} = require('url');
@@ -334,6 +335,48 @@ async function gitUpdateAsync(localPath)
     }));
 }
 
+// client.set 异步版本
+async function redisSetAsync(key, value, expireSeconds)
+{
+    return new Promise(((resolve, reject) =>
+    {
+        try
+        {
+            client.set(key, value, 'EX', expireSeconds, (res) =>
+            {
+                resolve(res);
+            });
+        }
+        catch (e)
+        {
+            reject(e);
+        }
+    }));
+}
+
+// client.get 异步版本
+async function redisGetAsync(key)
+{
+    return new Promise(((resolve, reject) =>
+    {
+        try
+        {
+            client.get(key, (err, reply) =>
+            {
+                if (err)
+                {
+                    throw (err);
+                }
+                resolve(reply);
+            });
+        }
+        catch (e)
+        {
+            reject(e);
+        }
+    }));
+}
+
 module.exports = {
     getUserAsync,
     createFolder,
@@ -347,5 +390,7 @@ module.exports = {
     getFileSizeAsync,
     removeFilesInFolderAsync,
     execAsync,
-    gitUpdateAsync
+    gitUpdateAsync,
+    redisGetAsync,
+    redisSetAsync
 };
