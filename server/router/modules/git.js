@@ -27,7 +27,7 @@ module.exports = (router) =>
                     log(`Server modules installing.\n${npmStdout}`);
                     if (npmStderr)
                     {
-                        log(`Error when installing server modules.\n${stderr}`);
+                        log(`Error when installing server modules.\n${npmStderr}`);
                     }
 
                     log(`Restarting server daemon.`);
