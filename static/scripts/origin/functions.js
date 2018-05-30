@@ -290,6 +290,7 @@ async function postAsync(suffix, dataObj = {})
 {
     return new Promise(((resolve, reject) =>
     {
+        console.log(dataObj);
         axios
             .post(`/server/${suffix}`, dataObj)
             .then((res) =>
