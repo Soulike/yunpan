@@ -92,9 +92,7 @@ $(() =>
     });
 });
 
-/*文件上传
- * TODO: 改为axios形式
- * */
+/*文件上传*/
 $(() =>
 {
     const $uploadControl = $('#uploadControl');
@@ -102,7 +100,7 @@ $(() =>
     const $uploadIsPublicCheckbox = $('#uploadIsPublicCheckbox');
     const $uploadModalBtn = $('#uploadModalBtn');
 
-    $uploadModalBtn.click((e) =>
+    $uploadModalBtn.click(async (e) =>
     {
         e.preventDefault();
         $uploadControl.prop('disabled', true);//上传期间，表单关闭
@@ -112,52 +110,78 @@ $(() =>
             formData.append(`file`, $uploadControl[0].files[i]);
         }
         formData.append('isPublic', $uploadIsPublicCheckbox.prop('checked'));
-        $.ajax(
-            {
-                xhrFields: {
-                    withCredentials: true
-                },
-                url: `https://${DOMAIN}/server/upload`,
-                method: 'post',
-                data: formData,
-                processData: false,
-                contentType: false,
-                async: true,
-                success: async (res) =>
+        /*$.ajax(
+         {
+         xhrFields: {
+         withCredentials: true
+         },
+         url: `https://${DOMAIN}/server/upload`,
+         method: 'post',
+         data: formData,
+         processData: false,
+         contentType: false,
+         async: true,
+         success: async (res) =>
+         {
+         const {status, msg} = res;
+         showAlert(msg, status);
+         $uploadControl.prop('disabled', false);
+         await getFileListAsync();
+         },
+         error: (err) =>
+         {
+         showAlert(MSG.ERROR);
+         $uploadControl.prop('disabled', false);
+         console.log(err);
+         },
+         xhr: function ()
+         {
+         //获取ajaxSettings中的xhr对象，为它的upload属性绑定progress事件的处理函数
+         let myXhr = $.ajaxSettings.xhr();
+         if (myXhr.upload)
+         { //检查upload属性是否存在
+         myXhr.upload.addEventListener('progress', function (event)//绑定progress事件的回调函数
+         {
+         if (event.lengthComputable)
+         {
+         let percent = event.loaded / event.total * 100;
+         $uploadProgressBar.css('width', percent + '%');
+         $uploadControl.change(() =>
+         {
+         $uploadProgressBar.css('width', '0' + '%');
+         });
+         }
+         }, false);
+         }
+         return myXhr; //xhr对象返回给jQuery使用
+         }
+         });*/
+        try
+        {
+            const res = await postAsync('/upload', formData, {
+                onUploadProgress: event =>
                 {
-                    const {status, msg} = res;
-                    showAlert(msg, status);
-                    $uploadControl.prop('disabled', false);
-                    await getFileListAsync();
-                },
-                error: (err) =>
-                {
-                    showAlert(MSG.ERROR);
-                    $uploadControl.prop('disabled', false);
-                    console.log(err);
-                },
-                xhr: function ()
-                {
-                    //获取ajaxSettings中的xhr对象，为它的upload属性绑定progress事件的处理函数
-                    let myXhr = $.ajaxSettings.xhr();
-                    if (myXhr.upload)
-                    { //检查upload属性是否存在
-                        myXhr.upload.addEventListener('progress', function (event)//绑定progress事件的回调函数
-                        {
-                            if (event.lengthComputable)
-                            {
-                                let percent = event.loaded / event.total * 100;
-                                $uploadProgressBar.css('width', percent + '%');
-                                $uploadControl.change(() =>
-                                {
-                                    $uploadProgressBar.css('width', '0' + '%');
-                                });
-                            }
-                        }, false);
+                    if (event.lengthComputable)
+                    {
+                        let percent = event.loaded / event.total * 100;
+                        $uploadProgressBar.css('width', percent + '%');
                     }
-                    return myXhr; //xhr对象返回给jQuery使用
                 }
             });
+
+            const {status, msg} = res;
+            showAlert(msg, status);
+            await getFileListAsync();
+        }
+        catch (e)
+        {
+            showAlert(MSG.ERROR);
+            console.log(e);
+        }
+        finally
+        {
+            $uploadControl.prop('disabled', false);
+        }
     });
 });
 
@@ -165,12 +189,20 @@ $(() =>
 $(() =>
 {
     const $modal = $('.modal');
+    const $uploadControl = $('#uploadControl');
+    const $uploadProgressBar = $('#uploadProgressBar');
     $modal.on('hidden.bs.modal', (e) =>
     {
         if (!Object.is($(e.target).find('form')[0], undefined))
         {
             $(e.target).find('form')[0].reset();
+            $uploadProgressBar.css('width', '0' + '%');
         }
+    });
+    // 在表单改变时清空进度条
+    $uploadControl.change(() =>
+    {
+        $uploadProgressBar.css('width', '0' + '%');
     });
 });
 

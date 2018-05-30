@@ -269,12 +269,12 @@ function enableRatios()
     });
 }
 
-async function getAsync(suffix, paramsObj = {})
+async function getAsync(suffix, paramsObj = {}, config = {})
 {
     return new Promise(((resolve, reject) =>
     {
         axios
-            .get(`/server/${suffix}`, {params: paramsObj})
+            .get(`/server/${suffix}`, {params: paramsObj}, config)
             .then((res) =>
             {
                 resolve(res.data);
@@ -286,12 +286,12 @@ async function getAsync(suffix, paramsObj = {})
     }));
 }
 
-async function postAsync(suffix, dataObj = {})
+async function postAsync(suffix, dataObj = {}, config = {})
 {
     return new Promise(((resolve, reject) =>
     {
         axios
-            .post(`/server/${suffix}`, dataObj)
+            .post(`/server/${suffix}`, dataObj, config)
             .then((res) =>
             {
                 resolve(res.data);
