@@ -274,7 +274,7 @@ async function getAsync(suffix, paramsObj = {})
     return new Promise(((resolve, reject) =>
     {
         axios
-            .get(suffix, {params: paramsObj})
+            .get(`/server/${suffix}`, {params: paramsObj})
             .then((res) =>
             {
                 resolve(res.data);
@@ -291,7 +291,7 @@ async function postAsync(suffix, dataObj = {})
     return new Promise(((resolve, reject) =>
     {
         axios
-            .post(suffix, dataObj)
+            .post(`/server/${suffix}`, dataObj)
             .then((res) =>
             {
                 resolve(res.data);
