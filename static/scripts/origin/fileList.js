@@ -69,13 +69,16 @@ $(() =>
 });
 
 /*网页加载请求文件列表与邮箱*/
-$(() =>
+$(async () =>
 {
-    Promise.all([getFileListAsync(), getLoginEmailAsync()])
-        .catch(e =>
-        {
-            console.log(e);
-        });
+    try
+    {
+        await Promise.all([getFileListAsync(), getLoginEmailAsync()]);
+    }
+    catch (e)
+    {
+        console.log(e);
+    }
 });
 
 /*刷新按钮*/
