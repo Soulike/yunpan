@@ -141,4 +141,35 @@ module.exports = (router) =>
             await next();
         }
     });
+
+    /*获取登陆用户的 Email
+     * 返回值
+     * {
+     *     email: xxxx@xx.com
+     * }
+     * */
+    router.post(prefix('/getLoginEmail'), async (ctx, next) =>
+    {
+        try
+        {
+            const id = ctx.session.id;
+            const user = await getUserAsync(id);
+            if (Object.is(user, null))
+            {
+                ctx.body = new response(false, config.RESPONSE_MSG.INVALID_SESSION);
+            }
+            else
+            {
+                ctx.body = new response(true, '邮箱获取成功', {email: user.email});
+            }
+        }
+        catch (e)
+        {
+            ctx.body = new response(false, config.RESPONSE_MSG.INTERNAL_SERVER_ERROR);
+        }
+        finally
+        {
+            await next();
+        }
+    });
 };

@@ -32,6 +32,12 @@ div#fileListArea
     margin-top: 1rem;
 }
 
+div#loginEmailArea
+{
+    display: inline-block;
+    font-size: 1rem;
+}
+
 button#refreshFileListBtn{
     float: right;
 }
