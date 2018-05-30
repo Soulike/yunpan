@@ -27,7 +27,7 @@ module.exports = (router) =>
      *     downloadLink: https://pan.soulike.tech/server/download/downloadFile?fileId=xxx&token=xxx
      * }
      * */
-    router.post(prefix('/getDownloadLink'), async (ctx, next) =>
+    router.get(prefix('/getDownloadLink'), async (ctx, next) =>
     {
         try
         {
@@ -39,7 +39,7 @@ module.exports = (router) =>
             }
             else
             {
-                const {fileId} = ctx.request.body;
+                const {fileId} = ctx.request.query;
                 const file = await db.File.findById(fileId);
                 if (Object.is(file, null))
                 {

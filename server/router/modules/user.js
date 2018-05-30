@@ -97,7 +97,7 @@ module.exports = (router) =>
      *     ]
      * }
      * */
-    router.post(prefix('/getFileList'), async (ctx, next) =>
+    router.get(prefix('/getFileList'), async (ctx, next) =>
     {
         try
         {
@@ -148,7 +148,7 @@ module.exports = (router) =>
      *     email: xxxx@xx.com
      * }
      * */
-    router.post(prefix('/getLoginEmail'), async (ctx, next) =>
+    router.get(prefix('/getLoginEmail'), async (ctx, next) =>
     {
         try
         {

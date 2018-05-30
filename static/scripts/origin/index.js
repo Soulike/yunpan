@@ -5,7 +5,7 @@ $(() =>
     const $email = $('#email');
     const $password = $('#password');
 
-    $loginForm.submit((e) =>
+    $loginForm.submit(async (e) =>
     {
         e.preventDefault();
         const email = $email.val();
@@ -28,21 +28,37 @@ $(() =>
                 pass2: pass2.getHash('HEX')
             };
 
-            AJAX('/user/login', data,
-                (res) =>
+            /*AJAX('/user/login', data,
+             (res) =>
+             {
+             const {status, msg, data} = res;
+             showAlert(msg, status);
+             if (status)
+             {
+             location.href = 'fileList.html';
+             }
+             },
+             (err) =>
+             {
+             showAlert(MSG.ERROR);
+             console.log(err);
+             });*/
+
+            try
+            {
+                const res = await postAsync('/user/login', data);
+                const {status, msg, data} = res;
+                showAlert(msg, status);
+                if (status)
                 {
-                    const {status, msg, data} = res;
-                    showAlert(msg, status);
-                    if (status)
-                    {
-                        location.href = 'fileList.html';
-                    }
-                },
-                (err) =>
-                {
-                    showAlert(MSG.ERROR);
-                    console.log(err);
-                });
+                    location.href = 'fileList.html';
+                }
+            }
+            catch (e)
+            {
+                showAlert(MSG.ERROR);
+                console.log(e);
+            }
         }
     });
 });

@@ -14,7 +14,7 @@ $(() =>
     const $offlineDownloadModalBtn = $('#offlineDownloadModalBtn');
     const $offlineDownloadModal = $('#offlineDownloadModal');
 
-    $offlineDownloadModalBtn.click((e) =>
+    $offlineDownloadModalBtn.click(async (e) =>
     {
         e.preventDefault();
         const link = $offlineDownloadLink.val();
@@ -27,11 +27,29 @@ $(() =>
         }
         else
         {
-            AJAX('/offlineDownload/downloadLink', {
-                link: link,
-                isPublic: isPublic
-            }, (res) =>
+            /*AJAX('/offlineDownload/downloadLink', {
+             link: link,
+             isPublic: isPublic
+             }, (res) =>
+             {
+             const {status, msg, data} = res;
+             showAlert(msg, status);
+             if (status)
+             {
+             $offlineDownloadLink.val('');
+             hideModal($offlineDownloadModal);
+             }
+             }, (err) =>
+             {
+             showAlert(MSG.ERROR);
+             console.log(err);
+             });*/
+            try
             {
+                const res = await postAsync('/offlineDownload/downloadLink', {
+                    link: link,
+                    isPublic: isPublic
+                });
                 const {status, msg, data} = res;
                 showAlert(msg, status);
                 if (status)
@@ -39,11 +57,12 @@ $(() =>
                     $offlineDownloadLink.val('');
                     hideModal($offlineDownloadModal);
                 }
-            }, (err) =>
+            }
+            catch (e)
             {
                 showAlert(MSG.ERROR);
-                console.log(err);
-            });
+                console.log(e);
+            }
         }
     });
 
@@ -52,22 +71,27 @@ $(() =>
 /*网页加载请求文件列表与邮箱*/
 $(() =>
 {
-    getFileList();
-    getLoginEmail();
+    Promise.all([getFileListAsync(), getLoginEmailAsync()])
+        .catch(e =>
+        {
+            console.log(e);
+        });
 });
 
 /*刷新按钮*/
 $(() =>
 {
     const $refreshFileListBtn = $('#refreshFileListBtn');
-    $refreshFileListBtn.click((e) =>
+    $refreshFileListBtn.click(async (e) =>
     {
         e.preventDefault();
-        getFileList();
+        await getFileListAsync();
     });
 });
 
-/*文件上传*/
+/*文件上传
+ * TODO: 改为axios形式
+ * */
 $(() =>
 {
     const $uploadControl = $('#uploadControl');
@@ -96,12 +120,12 @@ $(() =>
                 processData: false,
                 contentType: false,
                 async: false,
-                success: (res) =>
+                success: async (res) =>
                 {
                     const {status, msg} = res;
                     showAlert(msg, status);
                     $uploadControl.prop('disabled', false);
-                    getFileList();
+                    await getFileListAsync();
                 },
                 error: (err) =>
                 {
@@ -138,13 +162,11 @@ $(() =>
 $(() =>
 {
     const $modal = $('.modal');
-    const $uploadProgressBar = $('#uploadProgressBar');
     $modal.on('hidden.bs.modal', (e) =>
     {
         if (!Object.is($(e.target).find('form')[0], undefined))
         {
             $(e.target).find('form')[0].reset();
-            $uploadProgressBar.css('width', '0' + '%');
         }
     });
 });
@@ -154,7 +176,7 @@ $(() =>
 {
     const $downloadBtn = $('#downloadBtn');
 
-    $downloadBtn.click((e) =>
+    $downloadBtn.click(async (e) =>
     {
         e.preventDefault();
         const $selected = $('input[type=radio]:checked');
@@ -169,18 +191,34 @@ $(() =>
         else
         {
             const fileId = $selected.attr('data-fileid');
-            AJAX('/download/getDownloadLink', {fileId: fileId},
-                (res) =>
+            /*AJAX('/download/getDownloadLink', {fileId: fileId},
+             (res) =>
+             {
+             const {status, msg, data} = res;
+             showAlert(msg, status);
+             download(data.downloadLink);
+             },
+             (err) =>
+             {
+             showAlert(MSG.ERROR);
+             console.log(err);
+             });
+             */
+            try
+            {
+                const res = await getAsync('/download/getDownloadLink', {fileId: fileId});
+                const {status, msg, data} = res;
+                showAlert(msg, status);
+                if (status)
                 {
-                    const {status, msg, data} = res;
-                    showAlert(msg, status);
                     download(data.downloadLink);
-                },
-                (err) =>
-                {
-                    showAlert(MSG.ERROR);
-                    console.log(err);
-                });
+                }
+            }
+            catch (e)
+            {
+                showAlert(MSG.ERROR);
+                console.log(e);
+            }
         }
     });
 });
@@ -214,22 +252,36 @@ $(() =>
         }
     });
 
-    $deleteModalBtn.click((e) =>
+    $deleteModalBtn.click(async (e) =>
     {
         e.preventDefault();
         const fileId = $selected.attr('data-fileid');
-        AJAX('/delete', {fileId: fileId},
-            (res) =>
-            {
-                const {status, msg, data} = res;
-                showAlert(msg, status);
-                $deleteModal.modal('hide');
-                getFileList();
-            },
-            (err) =>
-            {
-                showAlert(MSG.ERROR);
-                console.log(err);
-            });
+        /*AJAX('/delete', {fileId: fileId},
+         (res) =>
+         {
+         const {status, msg, data} = res;
+         showAlert(msg, status);
+         $deleteModal.modal('hide');
+         getFileList();
+         },
+         (err) =>
+         {
+         showAlert(MSG.ERROR);
+         console.log(e);
+         });
+         */
+        try
+        {
+            const res = await postAsync('/delete', {fileId: fileId});
+            const {status, msg, data} = res;
+            showAlert(msg, status);
+            $deleteModal.modal('hide');
+            await getFileListAsync();
+        }
+        catch (e)
+        {
+            showAlert(MSG.ERROR);
+            console.log(e);
+        }
     });
 });

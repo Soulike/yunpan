@@ -116,7 +116,49 @@ function download(fileUrl)
  * 如果请求发生错误，返回null
  * */
 
-function getFileList()
+/*function getFileList()
+ {
+ const getFileRow = (fileId, fileName, fileSize, createdAt) =>
+ {
+ return $(`<tr class="fileListRow">
+ <td><input type="radio" data-fileID="${fileId}"></td>
+ <td class="fileName">${fileName}</td>
+ <td>${(fileSize / 1024 / 1024).toFixed(2)} M</td>
+ <td>${parseTimeString(createdAt)}</td>
+ </tr>`);
+ };
+
+ AJAX('/user/getFileList', {},
+ (res) =>
+ {
+ const {status, msg, data} = res;
+ if (!status)
+ {
+ showAlert(msg);
+ }
+ else
+ {
+ const fileList = data.fileList;
+ if (!Object.is(fileList, null))
+ {
+ const $fileListBody = $('#fileListBody');
+ $fileListBody.html('');
+ for (const file of fileList)
+ {
+ $fileListBody.append(getFileRow(file.id, file.fileName, file.fileSize, file.createdAt));
+ }
+ enableRatios();
+ }
+ }
+ },
+ (err) =>
+ {
+ showAlert(MSG.ERROR);
+ console.log(err);
+ });
+ }*/
+
+async function getFileListAsync()
 {
     const getFileRow = (fileId, fileName, fileSize, createdAt) =>
     {
@@ -128,9 +170,11 @@ function getFileList()
                 </tr>`);
     };
 
-    AJAX('/user/getFileList', {},
-        (res) =>
+    return new Promise((async (resolve, reject) =>
+    {
+        try
         {
+            const res = await getAsync('/user/getFileList');
             const {status, msg, data} = res;
             if (!status)
             {
@@ -150,20 +194,49 @@ function getFileList()
                     enableRatios();
                 }
             }
-        },
-        (err) =>
+            resolve();
+        }
+        catch (e)
         {
             showAlert(MSG.ERROR);
-            console.log(err);
-        });
+            reject(e);
+        }
+    }));
 }
 
-function getLoginEmail()
+
+/*function getLoginEmail()
+ {
+ const $loginEmail = $('#loginEmail');
+ AJAX('/user/getLoginEmail', {},
+ (res) =>
+ {
+ const {status, msg, data} = res;
+ if (!status)
+ {
+ showAlert(msg);
+ }
+ else
+ {
+ const {email} = data;
+ $loginEmail.text(email);
+ }
+ },
+ (err) =>
+ {
+ showAlert(MSG.ERROR);
+ console.log(err);
+ });
+ }*/
+
+async function getLoginEmailAsync()
 {
-    const $loginEmail = $('#loginEmail');
-    AJAX('/user/getLoginEmail', {},
-        (res) =>
+    return new Promise(async (resolve, reject) =>
+    {
+        try
         {
+            const $loginEmail = $('#loginEmail');
+            const res = await getAsync('/user/getLoginEmail');
             const {status, msg, data} = res;
             if (!status)
             {
@@ -174,12 +247,15 @@ function getLoginEmail()
                 const {email} = data;
                 $loginEmail.text(email);
             }
-        },
-        (err) =>
+            resolve();
+        }
+        catch (e)
         {
             showAlert(MSG.ERROR);
-            console.log(err);
-        });
+            reject(e);
+        }
+
+    });
 }
 
 /*在点击行时，可以选中对应行的radio*/
@@ -191,4 +267,38 @@ function enableRatios()
         $fileListRow.find('input[type=radio]').prop('checked', false);//清除所有其他radio
         $(e.target).parent().find('input[type=radio]').prop('checked', true);//把当前行radio选中
     });
+}
+
+async function getAsync(suffix, paramsObj = {})
+{
+    return new Promise(((resolve, reject) =>
+    {
+        axios
+            .get(suffix, {params: paramsObj})
+            .then((res) =>
+            {
+                resolve(res.data);
+            })
+            .catch((err) =>
+            {
+                reject(err);
+            });
+    }));
+}
+
+async function postAsync(suffix, dataObj = {})
+{
+    return new Promise(((resolve, reject) =>
+    {
+        axios
+            .post(suffix, dataObj)
+            .then((res) =>
+            {
+                resolve(res.data);
+            })
+            .catch((err) =>
+            {
+                reject(err);
+            });
+    }));
 }
