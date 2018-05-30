@@ -66,8 +66,10 @@ const File = userDb.define('file',
     }
 );
 
-User.hasMany(File);
-File.belongsTo(User);
+User.hasMany(File, {
+    foreignKey: 'owner_id',
+    sourceKey: 'id'
+});
 
 module.exports = {
     userDb,
