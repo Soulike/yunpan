@@ -122,7 +122,7 @@ $(() =>
                 data: formData,
                 processData: false,
                 contentType: false,
-                async: false,
+                async: true,
                 success: async (res) =>
                 {
                     const {status, msg} = res;
