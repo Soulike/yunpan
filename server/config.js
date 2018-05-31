@@ -41,6 +41,8 @@ const RESPONSE_MSG = {
     INVALID_SESSION: '身份认证失效，请重新登录'
 };
 
+const GIT_WEBHOOK_PASSWORD = '16009d64cd88b840c4cc1fbd8cde6f4109bdf439a5cfd4050a61fb1438ca137b';
+
 class response
 {
     constructor(status, msg, data = {})
@@ -58,5 +60,6 @@ module.exports = {
     PATH,
     NAME,
     RESPONSE_MSG,
+    GIT_WEBHOOK_PASSWORD,
     response
 };
