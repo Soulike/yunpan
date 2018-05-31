@@ -1,9 +1,10 @@
 'use strict';
+const {DATABASE} = require('./config');
 const {log} = require('./functions/log');
 const Sequelize = require('sequelize');
-const userDb = new Sequelize('user', 'postgres', 'Soulike@PostgreSQL', {
-    host: '140.82.23.140',
-    dialect: 'postgres',
+const userDb = new Sequelize(DATABASE.DATABASE_NAME, DATABASE.USERNAME, DATABASE.PASSWORD, {
+    host: DATABASE.HOST,
+    dialect: DATABASE.DATABASE_DIALECT,
     operatorsAliases: false,
 
     pool: {
