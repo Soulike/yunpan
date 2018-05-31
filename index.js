@@ -4,7 +4,6 @@ const app = new Koa();
 
 const session = require('koa-session');
 
-
 const helmet = require('koa-helmet');
 const bodyParser = require('koa-bodyparser');
 const router = require('./server/router/router');
@@ -20,7 +19,7 @@ userDb
     .sync()
     .then((result) =>
     {
-        log(`Database sync succeed.`);
+        log(`Database sync succeed.\n${result.toString()}`);
     })
     .catch((err) =>
     {
@@ -31,5 +30,5 @@ app
     .use(router.routes())
     .use(router.allowedMethods());
 
-log(`Server is running on port ${config.PORT}`);
+log(`Server is running on port ${config.PORT}.`);
 app.listen(config.PORT);
