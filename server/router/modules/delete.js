@@ -40,6 +40,10 @@ module.exports = (router) =>
                 {
                     ctx.body = new response(false, '文件不存在');
                 }
+                else if (id !== file.owner_id)  // 查看这个文件是否是这个人上传的
+                {
+                    ctx.body = new response(false, '不能删除他人上传的文件');
+                }
                 else
                 {
                     const {file_name: fileName, upload_date: dayString} = file;
