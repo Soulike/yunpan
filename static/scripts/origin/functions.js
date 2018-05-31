@@ -56,25 +56,6 @@ function showAlert(content, isSuccess = false)
     }, 1000);
 }
 
-function AJAX(suffix, data, successFunction, errorFunction, async = true)
-{
-    $.ajax(
-        {
-            xhrFields: {
-                withCredentials: true
-            },
-            contentType: 'application/json',
-            timeout: 2000,
-            async: async,
-            dataType: 'json',
-            url: `https://${DOMAIN}/server${suffix}`,
-            method: 'post',
-            data: JSON.stringify(data),
-            success: successFunction,
-            error: errorFunction
-        });
-}
-
 function hideModal(selector)
 {
     $(selector).modal('hide');
@@ -115,48 +96,6 @@ function download(fileUrl)
  * ]
  * 如果请求发生错误，返回null
  * */
-
-/*function getFileList()
- {
- const getFileRow = (fileId, fileName, fileSize, createdAt) =>
- {
- return $(`<tr class="fileListRow">
- <td><input type="radio" data-fileID="${fileId}"></td>
- <td class="fileName">${fileName}</td>
- <td>${(fileSize / 1024 / 1024).toFixed(2)} M</td>
- <td>${parseTimeString(createdAt)}</td>
- </tr>`);
- };
-
- AJAX('/user/getFileList', {},
- (res) =>
- {
- const {status, msg, data} = res;
- if (!status)
- {
- showAlert(msg);
- }
- else
- {
- const fileList = data.fileList;
- if (!Object.is(fileList, null))
- {
- const $fileListBody = $('#fileListBody');
- $fileListBody.html('');
- for (const file of fileList)
- {
- $fileListBody.append(getFileRow(file.id, file.fileName, file.fileSize, file.createdAt));
- }
- enableRatios();
- }
- }
- },
- (err) =>
- {
- showAlert(MSG.ERROR);
- console.log(err);
- });
- }*/
 
 async function getFileListAsync()
 {
@@ -203,31 +142,6 @@ async function getFileListAsync()
         }
     }));
 }
-
-
-/*function getLoginEmail()
- {
- const $loginEmail = $('#loginEmail');
- AJAX('/user/getLoginEmail', {},
- (res) =>
- {
- const {status, msg, data} = res;
- if (!status)
- {
- showAlert(msg);
- }
- else
- {
- const {email} = data;
- $loginEmail.text(email);
- }
- },
- (err) =>
- {
- showAlert(MSG.ERROR);
- console.log(err);
- });
- }*/
 
 async function getLoginEmailAsync()
 {

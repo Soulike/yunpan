@@ -4,7 +4,7 @@ const REGEXP = {
     URL: /^https?:\/\/([A-z0-9\-]+\.)*[A-z0-9\-]+\.[A-z0-9]+(\/.+)+$/
 };
 
-const [DOMAIN, PORT] = ['pan.soulike.tech', 80];
+const DOMAIN = 'pan.soulike.tech';
 
 const MSG = {
     ERROR: '网络异常，请重试'
