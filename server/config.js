@@ -37,7 +37,7 @@ const PATH = {
 
 // 杂项，用于 Supervisor 重启进程
 const NAME = {
-    SUPERVISOR: 'pan'
+    SUPERVISOR: 'pan'   // 你的 Supervisor 进程配置文件当中指定的进程名字
 };
 
 // 常用的回复语句
