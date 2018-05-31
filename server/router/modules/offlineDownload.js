@@ -67,6 +67,10 @@ module.exports = (router) =>
                                 is_public: !!isPublic,
                                 owner_id: parseInt(id)
                             });
+                        })
+                        .catch((e) =>
+                        {
+                            log(`Error when downloading file.\n${e.toString()}`);
                         });
                     ctx.body = new response(true, '文件已开始下载，请稍后再查看');
                 }
