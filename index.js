@@ -19,7 +19,7 @@ userDb
     .sync()
     .then((result) =>
     {
-        log(`Database sync succeed.\n${result.toString()}`);
+        log(`Database sync succeed.`);
     })
     .catch((err) =>
     {
