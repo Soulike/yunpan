@@ -72,6 +72,22 @@ User.hasMany(File, {
     sourceKey: 'id'
 });
 
+File.belongsTo(User, {
+    foreignKey: 'owner_id'
+});
+
+
+/*File.findById(5).then((res) =>
+ {
+ res.getAccount().then(
+ (res) =>
+ {
+ console.log(res.email);
+ }
+ );
+ });*/
+
+
 module.exports = {
     userDb,
     User,
