@@ -30,7 +30,7 @@ async function downloadAsync(fileUrl, localFolder)
         {
             const urlObj = new URL(fileUrl);
             const filePath = urlObj.pathname;
-            let fileName = path.basename(filePath);//获取文件名
+            let fileName = decodeURIComponent(path.basename(filePath));//获取文件名
             await createFolder(localFolder);
             if (await isExistAsync(`${localFolder}/${fileName}`))//如果文件已经存在，则从(2)开始尝试
             {
