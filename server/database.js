@@ -78,20 +78,19 @@ File.belongsTo(User, {
 
 
 /*File.findById(5).then((res) =>
-{
-    res.getAccount().then(
-        (res) =>
-        {
-            console.log(res.email);
-        }
-    );
-});*/
+ {
+ res.getAccount().then(
+ (res) =>
+ {
+ console.log(res.email);
+ }
+ );
+ });*/
 
 
-/*
- module.exports = {
- userDb,
- User,
- File,
- Op: Sequelize.Op
- };*/
+module.exports = {
+    userDb,
+    User,
+    File,
+    Op: Sequelize.Op
+};
